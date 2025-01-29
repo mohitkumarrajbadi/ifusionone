@@ -1,0 +1,22 @@
+{
+    "appId": "com.mohit.ifusionone", 
+    "files": [
+        "dist-electron/**/*",
+        "dist-renderer/**/*"
+    ],
+    "extraResources": ["dist-electron/preload.cjs","src/assets/**"],
+    "icon": "./icon.png",
+    "mac": {
+        "target": "dmg"
+    },
+    "linux": {
+        "target": "AppImage",
+        "category": "Utility"
+    },
+    "win": {
+        "target": [
+            "portable",
+            "msi"
+        ]
+    }
+}
