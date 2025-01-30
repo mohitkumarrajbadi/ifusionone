@@ -1,0 +1,20 @@
+.side-nav{
+    font-size: xx-large;
+    font-weight:700;
+    height: 100vh;
+    width: 20vw;
+}
+
+.side-nav-links ul {
+    list-style-type: none;
+}
+
+.side-nav-links ul li{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.side-nav-links ul li svg{
+    font-size: xxx-large;
+}
