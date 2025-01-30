@@ -1,0 +1,111 @@
+/* Side Navigation Styles */
+.side-nav {
+    font-weight: 600;
+    height: 100vh;
+    width: 260px;
+    /* Spacious sidebar */
+    background: #2C2F38;
+    /* Lighter dark gray for modern aesthetic */
+    color: #E2E8F0;
+    /* Soft light text for better readability */
+    display: flex;
+    flex-direction: column;
+    padding-top: 30px;
+    /* Ample top padding for better alignment */
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.25);
+    /* Subtle shadow for modern look */
+    border-right: 1px solid #434C5E;
+    /* Soft right border for visual separation */
+    transition: all 0.3s ease; /* Smooth transition on resize */
+}
+
+/* List Styles */
+.side-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Navigation Links */
+.side-nav-list li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    /* Rounded corners for clickable items */
+}
+
+/* Links */
+.side-nav-list li a {
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 20px;
+    width: 100%;
+    border-radius: 8px;
+    transition: background 0.3s ease-in-out;
+}
+
+/* Active State */
+.side-nav-list li a.active {
+    background: rgba(255, 255, 255, 0.25); /* Active background */
+    color: #4A90E2; /* Active link color */
+}
+
+/* Hover Effect */
+.side-nav-list li a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px); /* Subtle shift for interactivity */
+}
+
+/* Active Link Hover */
+.side-nav-list li a.active:hover {
+    background: rgba(255, 255, 255, 0.3); /* Slightly darker active background on hover */
+}
+
+/* Icons */
+.side-nav-list li svg {
+    font-size: 1.6rem;
+    color: #A0AEC0; /* Default icon color */
+    transition: color 0.3s ease;
+}
+
+/* Icon Hover */
+.side-nav-list li a:hover svg {
+    color: #4A90E2; /* Icon color change on hover */
+}
+
+/* Responsive Design */
+
+/* Medium Screens (1024px and below) */
+@media (max-width: 1024px) {
+    .side-nav {
+        width: 220px;
+        padding-top: 25px;
+    }
+
+    .side-nav-list li {
+        font-size: 1.1rem;
+        padding: 14px 20px;
+    }
+}
+
+/* Small Screens (768px and below) */
+@media (max-width: 768px) {
+    .side-nav {
+        width: 180px; /* More compact on mobile */
+        padding-top: 15px;
+    }
+
+    .side-nav-list li {
+        font-size: 1rem;
+        padding: 12px 18px;
+    }
+}

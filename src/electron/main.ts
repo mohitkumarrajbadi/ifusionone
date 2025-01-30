@@ -1,22 +1,19 @@
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow , ipcMain} from 'electron';
 import { getPreloadPath, getUIPath } from './pathResolver.js';
 import { isDev } from './util.js';
 
-app.on('ready', () => {
-    const mainWindow = new BrowserWindow(
-        {
-            webPreferences: {
-                preload: getPreloadPath()
-            }
-        },
+app.whenReady().then(() => {
+    const mainWindow = new BrowserWindow({
+        webPreferences: {
+            preload: getPreloadPath(),
+            contextIsolation: true,  // Ensures security
+            nodeIntegration: false,  // Prevents exposing Node.js APIs
+        }
+    });
 
-    );
-
-
-    if (!isDev())
+    if (!isDev()) {
         mainWindow.loadFile(getUIPath());
-    else
-        mainWindow.loadURL('http://localhost:5123')
-
-
+    } else {
+        mainWindow.loadURL('http://localhost:5123');
+    }
 });

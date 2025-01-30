@@ -1,16 +1,12 @@
-#root {
-  
+#root{
+  font-family: monospace;
 }
 
 
-/* .card {
-  padding: 2em;
+.app-container{
   display: flex;
-  flex-direction: column;
-  align-content: flex-start;
+  gap: 10px;
 }
-
-.card ul{
-  list-style: none;
-    text-align: left;
-} */
+.content{
+  padding-top: 25px;
+}
