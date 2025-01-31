@@ -1,0 +1,69 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1d1f23;
+    height: 36px;
+    padding: 0 12px;
+    color: #fff;
+    border-radius: 8px 8px 0 0;
+    -webkit-app-region: drag; /* Makes the entire header draggable */
+    position: relative;
+}
+
+/* macOS-style control buttons */
+.header-controls {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    left: 12px;
+    -webkit-app-region: no-drag; /* Prevents buttons from being draggable */
+}
+
+/* Common styles for macOS control buttons */
+.header-button {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+/* Close Button - Red */
+.close-btn {
+    background-color: #ff5f57;
+}
+.close-btn:hover {
+    background-color: #e0443f;
+}
+
+/* Minimize Button - Yellow */
+.minimize-btn {
+    background-color: #ffbd2e;
+}
+.minimize-btn:hover {
+    background-color: #e1a617;
+}
+
+/* Maximize Button - Green */
+.maximize-btn {
+    background-color: #28c940;
+}
+.maximize-btn:hover {
+    background-color: #1da230;
+}
+
+/* Centered Title */
+.header-title {
+    font-size: 14px;
+    font-weight: bold;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none; /* Prevents title from blocking draggability */
+    -webkit-app-region: drag;
+}

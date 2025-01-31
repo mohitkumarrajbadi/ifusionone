@@ -10,3 +10,6 @@ export function getUIPath() {
 export function getAssetPath() {
     return path.join(app.getAppPath(), isDev() ? '.' : '..', '/src/assets');
 }
+export function getAIModelPath() {
+    return path.join(app.getAppPath(), isDev() ? '.' : '..', '/src/aimodels');
+}

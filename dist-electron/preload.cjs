@@ -6,6 +6,13 @@ electron_1.contextBridge.exposeInMainWorld('versions', {
     chrome: () => process.versions.chrome,
     electron: () => process.versions.electron,
 });
+const api = {
+    sendFrameAction: (action) => electron_1.ipcRenderer.send(action.toLowerCase()),
+};
+electron_1.contextBridge.exposeInMainWorld('electron', api);
+electron_1.contextBridge.exposeInMainWorld('testing', {
+    testAI: () => electron_1.ipcRenderer.send('testAI')
+});
 // contextBridge.exposeInMainWorld('ollama', {
 //     ollamaTest: async (message: string) => {
 //         try {

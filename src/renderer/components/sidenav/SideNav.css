@@ -3,109 +3,105 @@
     font-weight: 600;
     height: 100vh;
     width: 260px;
-    /* Spacious sidebar */
-    background: #2C2F38;
-    /* Lighter dark gray for modern aesthetic */
+    background: rgba(44, 47, 56, 0.9); /* Semi-transparent dark background */
+    backdrop-filter: blur(15px); /* Enhanced frosted glass effect */
     color: #E2E8F0;
-    /* Soft light text for better readability */
     display: flex;
     flex-direction: column;
-    padding-top: 30px;
-    /* Ample top padding for better alignment */
-    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.25);
-    /* Subtle shadow for modern look */
-    border-right: 1px solid #434C5E;
-    /* Soft right border for visual separation */
-    transition: all 0.3s ease; /* Smooth transition on resize */
+    padding-top: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
+    border-right: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    transition: width 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* List Styles */
+/* Navigation List */
 .side-nav-list {
     list-style: none;
     padding: 0;
     margin: 0;
+    flex-grow: 1;
 }
 
-/* Navigation Links */
+/* Navigation Items */
 .side-nav-list li {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 12px 20px;
+    gap: 15px;
+    padding: 12px 24px;
     cursor: pointer;
-    transition: background 0.3s ease-in-out, transform 0.2s ease;
-    font-size: 1.1rem;
+    font-size: 1rem;
     border-radius: 8px;
-    /* Rounded corners for clickable items */
+    transition: transform 0.3s ease, background 0.3s ease-in-out;
+    margin: 5px 0; 
+    flex-direction: column;
 }
 
-/* Links */
+/* Navigation Links */
 .side-nav-list li a {
     display: flex;
     text-decoration: none;
     color: inherit;
-    flex-direction: row;
     align-items: center;
-    gap: 15px;
-    padding: 12px 20px;
+    gap: 12px;
+    padding: 10px 20px;
     width: 100%;
     border-radius: 8px;
-    transition: background 0.3s ease-in-out;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Ensuring Icon Size is Fixed */
+.side-nav-list li svg {
+    font-size: 1.4rem; /* Fixed size for all icons */
+    min-width: 24px; /* Ensures icons don't shrink */
+    min-height: 24px;
+    color: #A0AEC0;
+    transition: color 0.3s ease;
 }
 
 /* Active State */
 .side-nav-list li a.active {
-    background: rgba(255, 255, 255, 0.25); /* Active background */
-    color: #4A90E2; /* Active link color */
+    background: rgba(255, 255, 255, 0.1); /* Light background for active link */
+    color: #4A90E2; /* Light blue accent color */
 }
 
 /* Hover Effect */
 .side-nav-list li a:hover {
-    background: rgba(255, 255, 255, 0.1);
-    transform: translateX(5px); /* Subtle shift for interactivity */
+    background: rgba(255, 255, 255, 0.15);
+    /* transform: translateX(5px); */
 }
 
 /* Active Link Hover */
 .side-nav-list li a.active:hover {
-    background: rgba(255, 255, 255, 0.3); /* Slightly darker active background on hover */
+    background: rgba(255, 255, 255, 0.2);
 }
 
-/* Icons */
-.side-nav-list li svg {
-    font-size: 1.6rem;
-    color: #A0AEC0; /* Default icon color */
-    transition: color 0.3s ease;
-}
-
-/* Icon Hover */
+/* Icon Hover Effect */
 .side-nav-list li a:hover svg {
-    color: #4A90E2; /* Icon color change on hover */
+    color: #4A90E2;
 }
-
-/* Responsive Design */
 
 /* Medium Screens (1024px and below) */
 @media (max-width: 1024px) {
     .side-nav {
         width: 220px;
-        padding-top: 25px;
+        padding-top: 20px;
     }
 
     .side-nav-list li {
-        font-size: 1.1rem;
-        padding: 14px 20px;
+        font-size: 1rem;
+        padding: 12px 18px;
     }
 }
 
 /* Small Screens (768px and below) */
 @media (max-width: 768px) {
     .side-nav {
-        width: 180px; /* More compact on mobile */
+        width: 180px;
         padding-top: 15px;
     }
 
     .side-nav-list li {
-        font-size: 1rem;
-        padding: 12px 18px;
+        font-size: 0.9rem;
+        padding: 10px 15px;
     }
 }

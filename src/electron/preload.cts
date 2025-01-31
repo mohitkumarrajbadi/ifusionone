@@ -1,10 +1,19 @@
 import { contextBridge, ipcRenderer } from 'electron';
-import {Ollama} from 'ollama';
 
 contextBridge.exposeInMainWorld('versions', {
-    node: () => process.versions.node,
-    chrome: () => process.versions.chrome,
-    electron: () => process.versions.electron,
+  node: () => process.versions.node,
+  chrome: () => process.versions.chrome,
+  electron: () => process.versions.electron,
+});
+
+const api: IpcChannels = {
+  sendFrameAction: (action) => ipcRenderer.send(action.toLowerCase()),
+};
+
+contextBridge.exposeInMainWorld('electron', api);
+
+contextBridge.exposeInMainWorld('testing', {
+  testAI: () => ipcRenderer.send('testAI')
 });
 
 // contextBridge.exposeInMainWorld('ollama', {

@@ -10,7 +10,10 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+dist-electron
+dist-renderer
 *.local
+src/aimodels
 
 # Editor directories and files
 .vscode/*
