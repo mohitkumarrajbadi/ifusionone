@@ -6,26 +6,7 @@ contextBridge.exposeInMainWorld('versions', {
   electron: () => process.versions.electron,
 });
 
-const api: IpcChannels = {
-  sendFrameAction: (action) => ipcRenderer.send(action.toLowerCase()),
-};
-
-contextBridge.exposeInMainWorld('electron', api);
-
-contextBridge.exposeInMainWorld('testing', {
-  testAI: () => ipcRenderer.send('testAI')
+contextBridge.exposeInMainWorld('electron', {
+  sendFrameAction: (action: string) => ipcRenderer.send(action.toLowerCase()),
+  testAI: (query: string) => ipcRenderer.send('testAI',query),
 });
-
-// contextBridge.exposeInMainWorld('ollama', {
-//     ollamaTest: async (message: string) => {
-//         try {
-//             const response = await Ollama.chat({
-//                 model: 'llama3.1',
-//                 messages: [{role : 'user',content: message}]
-//             });
-//             console.log(response.message.content)
-//         } catch (error) {
-//             console.error('Error in ollamaTest:', error);
-//         }
-//     },
-// });

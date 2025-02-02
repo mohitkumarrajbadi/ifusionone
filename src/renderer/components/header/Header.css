@@ -1,26 +1,28 @@
 .header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     background-color: #1d1f23;
     height: 36px;
     padding: 0 12px;
     color: #fff;
     border-radius: 8px 8px 0 0;
-    -webkit-app-region: drag; /* Makes the entire header draggable */
+    -webkit-app-region: drag;
     position: relative;
+    flex-direction: row;
+    align-content: center;
+    flex-wrap: nowrap;
 }
 
-/* macOS-style control buttons */
+.header-body{
+    display: flex;
+}
 .header-controls {
     display: flex;
     gap: 8px;
-    position: absolute;
-    left: 12px;
-    -webkit-app-region: no-drag; /* Prevents buttons from being draggable */
+    -webkit-app-region: no-drag;
 }
 
-/* Common styles for macOS control buttons */
 .header-button {
     width: 14px;
     height: 14px;

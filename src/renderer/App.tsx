@@ -5,7 +5,7 @@ import SideNav from './components/sidenav/SideNav';
 import Settings from './components/settings/Settings';
 import Store from './components/store/Store';
 import Favourites from './components/favourites/Favourites';
-import Header from './header/Header';
+import Header from './components/header/Header';
 
 function App() {
   return (
