@@ -21,3 +21,7 @@ export function getAssetPath() {
 export function getAIModelPath(){
   return path.join(app.getAppPath(),isDev() ? '.' : '..','/src/aimodels')
 }
+
+export function getCompilerFilePath(){
+  return path.join(app.getAppPath(),isDev() ? '.' : '..','/src/electron/compiler/compiler_files')
+}

@@ -1,66 +1,74 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { getPreloadPath, getUIPath, getAIModelPath } from './pathResolver.js';
+import { getPreloadPath, getUIPath, getAIModelPath, getCompilerFilePath } from './pathResolver.js';
 import { isDev } from './util.js';
 import { getLlama, LlamaChatSession } from 'node-llama-cpp';
-import path from 'path';
-
+import { exec } from 'child_process';
+import * as fs from 'fs';
+import * as path from 'path';
+import codeCompiler from './compiler/codeCompiler.js';
 
 let mainWindow: BrowserWindow | null = null;
 
-// Create Electron Main Window
-const createMainWindow = () => {
+app.whenReady().then(() => {
   mainWindow = new BrowserWindow({
     transparent: true,
-    frame: false,
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
-      nodeIntegration: false,
+      nodeIntegration: false, // Disables node integration for security
     },
+    frame: false,
   });
 
-  const url = isDev() ? 'http://localhost:5123' : getUIPath();
-  mainWindow.loadURL(url);
-
-  mainWindow.on('closed', () => (mainWindow = null));
-};
-
-// Register IPC Handlers
-const registerIPCHandlers = () => {
-  ipcMain.on('minimize', () => mainWindow?.minimize());
-  ipcMain.on('maximize', () =>
-    mainWindow?.isMaximized() ? mainWindow.restore() : mainWindow?.maximize()
-  );
-  ipcMain.on('close', () => mainWindow?.close());
-};
-
-// AI Model Interaction
-const runLlamaAI = async (query: string) => {
-  try {
-    const modelPath = path.join(getAIModelPath(), "Llama-3.2-3B-Instruct-Q2_K.gguf");
-    console.log(`Loading model from: ${modelPath}`);
-
-    const llama = await getLlama();
-    const model = await llama.loadModel({ modelPath });
-    const context = await model.createContext();
-    const session = new LlamaChatSession({ contextSequence: context.getSequence() });
-
-    console.log(`User Query: ${query}`);
-    const response = await session.prompt(query);
-    console.log(`AI Response: ${response}`);
-
-  } catch (error) {
-    console.error("AI Model Error:", error);
+  if (!isDev()) {
+    mainWindow.loadFile(getUIPath());
+  } else {
+    mainWindow.loadURL('http://localhost:5123');
   }
-};
 
-app.whenReady().then(() => {
-  createMainWindow();
-  registerIPCHandlers();
-  ipcMain.on('testAI', async (event, query: string) => {
-    console.log("event : " + event);
-    console.log("query : " + query);
-    await runLlamaAI(query);
+  // Window Controls
+  ipcMain.on('minimize', () => mainWindow?.minimize());
+  ipcMain.on('maximize', () => {
+    if (mainWindow) {
+      mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
+    }
   });
-});
+  ipcMain.on('close', () => mainWindow?.close());
+  mainWindow.on('closed', () => (mainWindow = null));
 
+  // AI Test Function
+  ipcMain.on('testAI', async () => {
+    try {
+      const aiModelPath = getAIModelPath();
+      console.log("AI Model Path:", aiModelPath);
+
+      const llama = await getLlama();
+      const model = await llama.loadModel({
+        modelPath: path.join(aiModelPath, "llama-3.2-3b-instruct.Q2_K.gguf"),
+      });
+
+      const context = await model.createContext();
+      const session = new LlamaChatSession({ contextSequence: context.getSequence() });
+
+      console.log("AI Response:", await session.prompt("Hi there, how are you?"));
+      console.log("AI Code Suggestion:", await session.prompt("Give me a python code for Binary Search"));
+    } catch (error: unknown) {
+      console.error("AI Error:", error instanceof Error ? error.message : "Unknown error");
+    }
+  });
+
+
+  ipcMain.on('compile-code', async (event, { code, language }) => {
+      try {
+    const response = await codeCompiler(event, { code, language });
+    console.log('Compilation Result:', response);
+  } catch (error) {
+    console.error('Error during compilation:', error);
+  }
+  });
+
+
+
+
+
+});

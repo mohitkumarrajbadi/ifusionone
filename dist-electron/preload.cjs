@@ -9,4 +9,5 @@ electron_1.contextBridge.exposeInMainWorld('versions', {
 electron_1.contextBridge.exposeInMainWorld('electron', {
     sendFrameAction: (action) => electron_1.ipcRenderer.send(action.toLowerCase()),
     testAI: (query) => electron_1.ipcRenderer.send('testAI', query),
+    compileCode: (code, language) => electron_1.ipcRenderer.send('compile-code', { code, language })
 });

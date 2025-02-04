@@ -4,7 +4,7 @@
         "dist-electron/**/*",
         "dist-renderer/**/*"
     ],
-    "extraResources": ["dist-electron/preload.cjs","src/assets/**"],
+    "extraResources": ["dist-electron/preload.cjs","src/assets/**,src/compiler/**"],
     "icon": "./icon.png",
     "mac": {
         "target": "dmg"
