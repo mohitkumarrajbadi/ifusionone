@@ -23,7 +23,7 @@ const SideNav: React.FC = () => {
                         activeClassName="active"
                     >
                         <FaStore />
-                        <span>Fusion Store</span>
+                        <span>Fusion Space</span>
                     </NavLink>
                 </li>
                 <li>
