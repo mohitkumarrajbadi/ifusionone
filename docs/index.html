@@ -1,11 +1,546 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iFusionOne</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>iFusionOne - Open Source Development Suite</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js"></script>
 </head>
 <body>
-    <h1>Testing iFusionOne Page</h1>
+  <header>
+    <h1>iFusionOne Open Source Project</h1>
+    <p>Your all-in-one development suite with advanced local AI capabilities</p>
+    <button class="dark-mode-toggle" onclick="document.body.classList.toggle('dark')">
+        🌙
+      </button>
+      
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#formatters">Formatters & Validators</a></li>
+      <li><a href="#dataconversion">Data Conversion</a></li>
+      <li><a href="#debuggers">Inspectors & Debuggers</a></li>
+      <li><a href="#generators">Generators</a></li>
+      <li><a href="#encoders">Encoders & Decoders</a></li>
+      <li><a href="#editors">Editors</a></li>
+      <li><a href="#texttools">Text Tools</a></li>
+      <li><a href="#other">Other Tools</a></li>
+      <li><a href="#additional">Additional Tools</a></li>
+      <li><a href="#ai-features">AI Features</a></li>
+      <li><a href="#llm">LLM Integration</a></li>
+    </ul>
+  </nav>
+
+  <div class="slider-container">
+    <div class="slider">
+        <!-- 1. Formatters, Validators, and Minifiers -->
+        <section id="formatters">
+          <h2>Formatters, Validators, and Minifiers</h2>
+          <h3>JSON Tools</h3>
+          <ul>
+            <li>JSON Format/Validate</li>
+            <li>JSON Minify</li>
+            <li>JSON Beautify/Pretty Print</li>
+          </ul>
+          <h3>HTML Tools</h3>
+          <ul>
+            <li>HTML Beautify</li>
+            <li>HTML Minify</li>
+            <li>HTML Validator</li>
+          </ul>
+          <h3>CSS Tools</h3>
+          <ul>
+            <li>CSS Beautify</li>
+            <li>CSS Minify</li>
+          </ul>
+          <h3>JavaScript Tools</h3>
+          <ul>
+            <li>JavaScript Beautify</li>
+            <li>JavaScript Minify</li>
+          </ul>
+          <h3>Other Tools</h3>
+          <ul>
+            <li>ERB Beautify/Minify</li>
+            <li>LESS Beautify/Minify</li>
+            <li>SCSS Beautify/Minify</li>
+            <li>XML Beautify/Minify</li>
+            <li>SQL Formatter</li>
+          </ul>
+        </section>
+    
+        <!-- 2. Data Conversion Tools -->
+        <section id="dataconversion">
+          <h2>Data Conversion Tools</h2>
+          <h3>JSON Converters</h3>
+          <ul>
+            <li>JSON ↔ XML</li>
+            <li>JSON ↔ CSV</li>
+            <li>JSON ↔ YAML</li>
+            <li>JSON ↔ TSV</li>
+            <li>JSON ↔ String</li>
+            <li>JSON ↔ Code</li>
+            <li>JSON ↔ Array of Table</li>
+            <li>JSON ↔ PHP</li>
+          </ul>
+          <h3>XML Converters</h3>
+          <ul>
+            <li>XML ↔ JSON</li>
+            <li>XML ↔ CSV</li>
+            <li>XML ↔ YAML</li>
+            <li>XML ↔ String</li>
+            <li>RSS to JSON</li>
+          </ul>
+          <h3>YAML Converters</h3>
+          <ul>
+            <li>YAML ↔ JSON</li>
+            <li>YAML ↔ XML</li>
+            <li>YAML ↔ CSV</li>
+          </ul>
+          <h3>CSV Converters</h3>
+          <ul>
+            <li>CSV ↔ JSON</li>
+            <li>CSV ↔ XML</li>
+            <li>CSV ↔ YAML</li>
+            <li>CSV ↔ HTML</li>
+          </ul>
+          <h3>Specialized Converters</h3>
+          <ul>
+            <li>String ↔ JSON</li>
+            <li>String Case Converter</li>
+          </ul>
+          <h3>Other Converters</h3>
+          <ul>
+            <li>HTML to JSX</li>
+            <li>HTML to Markdown</li>
+            <li>HTML to Text</li>
+            <li>PHP Serializer/Unserializer</li>
+            <li>Number Base Converter (e.g., Hex ↔ ASCII)</li>
+            <li>SVG to CSS</li>
+            <li>cURL to Code</li>
+            <li>Color Converter</li>
+          </ul>
+        </section>
+    
+        <!-- 3. Inspectors & Debuggers -->
+        <section id="debuggers">
+          <h2>Inspectors & Debuggers</h2>
+          <ul>
+            <li>HTML Preview</li>
+            <li>JSONPath Tester</li>
+            <li>XPath Tester</li>
+            <li>RegExp Tester</li>
+            <li>JWT Debugger</li>
+            <li>String Inspector</li>
+            <li>Color Inspector</li>
+            <li>HTML/JS Debugger</li>
+            <li>Unix Timestamp Converter</li>
+            <li>Cron Job Parser</li>
+            <li>Text Diff Checker</li>
+            <li>String Diff Checker</li>
+            <li>Markdown Preview</li>
+            <li>URL Parser</li>
+          </ul>
+        </section>
+    
+        <!-- 4. Generators -->
+        <section id="generators">
+          <h2>Generators</h2>
+          <ul>
+            <li>UUID/ULID Generator</li>
+            <li>QR Code Generator</li>
+            <li>Lorem Ipsum Text Generator</li>
+            <li>Random String/Password Generator</li>
+            <li>Mock Data Generator</li>
+            <li>Hash Generator</li>
+          </ul>
+        </section>
+    
+        <!-- 5. Encoders & Decoders -->
+        <section id="encoders">
+          <h2>Encoders & Decoders</h2>
+          <h3>Base64 Tools</h3>
+          <ul>
+            <li>Base64 String Encode/Decode</li>
+            <li>Base64 Image Encode/Decode</li>
+          </ul>
+          <h3>URL Tools</h3>
+          <ul>
+            <li>URL Encode/Decode</li>
+            <li>URL Parser</li>
+          </ul>
+          <h3>HTML Tools</h3>
+          <ul>
+            <li>HTML Entity Encode/Decode</li>
+          </ul>
+          <h3>Other Tools</h3>
+          <ul>
+            <li>Backslash Escape/Unescape</li>
+            <li>Certificate Decoder (X.509)</li>
+            <li>GZIP Encode/Decode</li>
+            <li>JWT Encode/Decode</li>
+            <li>QR Code Encode/Decode</li>
+          </ul>
+        </section>
+    
+        <!-- 6. Editors -->
+        <section id="editors">
+          <h2>Editors</h2>
+          <h3>Code Editors</h3>
+          <ul>
+            <li>JSON</li>
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>SCSS</li>
+            <li>XSLT</li>
+          </ul>
+          <h3>Schema Editors</h3>
+          <ul>
+            <li>Database Schema Editor</li>
+            <li>XML Schema (XSD)</li>
+            <li>JSON Schema</li>
+          </ul>
+          <h3>Text Editors</h3>
+          <ul>
+            <li>Rich Text Editor</li>
+            <li>Markdown Editor (with live preview)</li>
+          </ul>
+          <h3>Diagram Editors</h3>
+          <ul>
+            <li>ER Diagrams</li>
+            <li>Flowcharts</li>
+            <li>Sequence Diagrams</li>
+          </ul>
+        </section>
+    
+        <!-- 7. Text Tools -->
+        <section id="texttools">
+          <h2>Text Tools</h2>
+          <ul>
+            <li>Escape/Unescape</li>
+            <li>List Comparer</li>
+            <li>Markdown Preview</li>
+            <li>Text Analyzer & Utilities</li>
+            <li>Text Comparer</li>
+          </ul>
+        </section>
+    
+        <!-- 8. Other Tools -->
+        <section id="other">
+          <h2>Other Tools</h2>
+          <ul>
+            <li>Line Sort/Dedupe</li>
+            <li>Duplicate Detector</li>
+            <li>File Splitter</li>
+            <li>JSON Schema Generator</li>
+            <li>JSON ↔ PHP Converter</li>
+            <li>JSON ↔ C# Converter</li>
+            <li>PNG Compressor</li>
+            <li>Randomizer</li>
+            <li>RESX Translator</li>
+            <li>RSA Generator</li>
+            <li>Semantic Version (Semver) Calculator</li>
+            <li>Text Delimiter Tool</li>
+            <li>ULID Generator</li>
+            <li>XSD Generator</li>
+          </ul>
+        </section>
+    
+        <!-- 9. Additional Tools -->
+        <section id="additional">
+          <h2>Additional Tools</h2>
+          <h3>Text & String Tools</h3>
+          <h4>Text Generators</h4>
+          <ul>
+            <li>ASCII Art Text Generator</li>
+            <li>Faker (Mock Data Generator)</li>
+            <li>Placeholder Image Generator</li>
+          </ul>
+          <h4>String Utilities</h4>
+          <ul>
+            <li>String Case Converter</li>
+            <li>String Inspector</li>
+          </ul>
+          <h4>Encoding/Decoding Tools</h4>
+          <ul>
+            <li>BCrypt</li>
+            <li>BIP39 Passphrase Generator</li>
+            <li>Basic Auth Generator</li>
+            <li>URI Encoder/Decoder</li>
+            <li>HTML Entities Encoder/Decoder</li>
+          </ul>
+          <h4>Text Conversion</h4>
+          <ul>
+            <li>Markdown to HTML Converter</li>
+            <li>QueryString Parser</li>
+          </ul>
+          <h3>Image & Media Tools</h3>
+          <h4>Image Processing</h4>
+          <ul>
+            <li>Batch Image Processor</li>
+            <li>Image Compressor</li>
+            <li>Image Cropper</li>
+            <li>Image Extractor</li>
+          </ul>
+          <h4>SVG Tools</h4>
+          <ul>
+            <li>SVG Extractor</li>
+            <li>SVG to CSS Converter</li>
+            <li>SVGO (SVG Optimizer)</li>
+          </ul>
+          <h4>PDF Tools</h4>
+          <ul>
+            <li>PDF Merger</li>
+            <li>PDF to Image Converter</li>
+          </ul>
+          <h4>Web Visualization</h4>
+          <ul>
+            <li>Code Snippet to Image</li>
+            <li>HTML to PDF Converter</li>
+          </ul>
+          <h3>UI & Styling Tools</h3>
+          <h4>CSS Tools</h4>
+          <ul>
+            <li>CSS Cursor Generator</li>
+            <li>CSS Shadow Generator</li>
+            <li>CSS Triangle Generator</li>
+          </ul>
+          <h4>Color Tools</h4>
+          <ul>
+            <li>Color Contrast Calculator</li>
+            <li>Color Information Viewer</li>
+            <li>Color Palette Generator</li>
+          </ul>
+          <h3>Data & Cryptography Tools</h3>
+          <h4>Data Utilities</h4>
+          <ul>
+            <li>JSON Explorer</li>
+            <li>JSON Size Explorer</li>
+            <li>Data URL Generator</li>
+          </ul>
+          <h4>Data Security</h4>
+          <ul>
+            <li>Data Encryptor</li>
+            <li>HMAC Generator</li>
+            <li>PGP Tools (Decryptor/Encryptor/Key Generator/Signer/Verifier)</li>
+          </ul>
+          <h4>Hash & Key Tools</h4>
+          <ul>
+            <li>Hash Generator</li>
+            <li>Keycode Info</li>
+          </ul>
+          <h3>Web Development Tools</h3>
+          <h4>Debugging Tools</h4>
+          <ul>
+            <li>JWT Decoder</li>
+            <li>Request Tester</li>
+          </ul>
+          <h4>Data Management</h4>
+          <ul>
+            <li>Structured Data Generator</li>
+            <li>Number Base Converter</li>
+            <li>Number Decimal Converter</li>
+          </ul>
+          <h4>Web Formatting</h4>
+          <ul>
+            <li>GraphQL Formatter</li>
+            <li>HAML to HTML Converter</li>
+            <li>HTML Sanitizer</li>
+          </ul>
+          <h3>Utility Tools</h3>
+          <h4>Time Management</h4>
+          <ul>
+            <li>Cron Job Manager</li>
+            <li>Pomodoro Timer</li>
+            <li>Unix Time Converter</li>
+          </ul>
+          <h4>Other Utilities</h4>
+          <ul>
+            <li>IP Information Tool</li>
+            <li>Unit Converter</li>
+            <li>User Agent Parser</li>
+          </ul>
+        </section>
+    
+        <!-- AI Features Section -->
+        <section id="ai-features">
+          <h2>AI Features</h2>
+          <h3>Innovative AI-Powered Features (Local Operation)</h3>
+          <ul>
+            <li>
+              <strong>AI-Driven Text & Code Enhancement</strong>
+              <ul>
+                <li>Code Suggestions & Refactoring: AI suggests and auto-corrects code for common pitfalls, enforces coding standards, and provides optimized solutions in supported editors.</li>
+                <li>Natural Language to Code Conversion: Describe your intent in natural language and the AI generates the corresponding code snippet (e.g., "Create a function to sort an array in JavaScript").</li>
+                <li>Document Summarizer: Summarizes large documents (such as JSON or XML files) by highlighting key points and structure.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Visual Generators</strong>
+              <ul>
+                <li>AI Flowchart and Diagram Generator: Converts text-based descriptions into flowcharts, sequence diagrams, or ER diagrams.</li>
+                <li>CSS Animation Builder: Generates CSS animations based on user descriptions (e.g., "Create a bouncing ball effect").</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Intelligent Debugging Tools</strong>
+              <ul>
+                <li>Error Prediction in Code: AI predicts potential bugs or errors before execution and suggests fixes.</li>
+                <li>Smart JSONPath/XPath Helper: Provides intelligent suggestions for JSONPath or XPath queries based on data structure.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Advanced Data Insights</strong>
+              <ul>
+                <li>AI-Powered Data Visualizer: Automatically generates graphs, charts, and heatmaps from JSON, CSV, or XML data.</li>
+                <li>Data Anomaly Detection: Identifies outliers or inconsistencies in datasets.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Natural Language Processing Tools</strong>
+              <ul>
+                <li>Offline Sentiment Analyzer: Analyzes text sentiment (positive, negative, neutral) in JSON data, XML comments, or plain text files.</li>
+                <li>Language Converter for Code Comments: Translates code comments between languages while preserving technical accuracy.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Enhanced Media & File Utilities</strong>
+              <ul>
+                <li>Offline AI Image Compressor: Compresses images intelligently without noticeable quality loss.</li>
+                <li>PDF Content Extractor: Extracts text, images, or tables from PDFs and converts them into structured JSON or XML formats.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Smart Search & Organization</strong>
+              <ul>
+                <li>Contextual Search in Files: AI-powered search that understands context and retrieves related content across files.</li>
+                <li>File Structure Visualizer: Visualizes the hierarchy of large JSON or XML files for easier navigation.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Personalized AI Assistant</strong>
+              <ul>
+                <li>Project Dependency Checker: Reviews project files (e.g., package.json) and suggests missing or conflicting dependencies.</li>
+                <li>Task Automator: Automates repetitive tasks like formatting, renaming, or reorganizing files based on user-defined rules.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>AI-Driven Generators</strong>
+              <ul>
+                <li>Offline Mock Data Generator: Generates realistic mock data based on schema definitions.</li>
+                <li>Dynamic Schema Validator: Automatically generates JSON or XML schemas from data samples.</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Creative AI Tools</strong>
+              <ul>
+                <li>Style-Based Code Conversion: Converts code styles (e.g., snake_case to camelCase) or adjusts code according to style guides.</li>
+                <li>AI-Powered Text Beautification: Rewrites text to improve clarity and conciseness.</li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+    
+        <!-- Local LLM Integration Section -->
+        <section id="llm">
+          <h2>Local Large Language Model (LLM) Integration</h2>
+          <h3>Recommended Models</h3>
+          <ul>
+            <li>
+              <strong>Code Llama</strong>: Developed by Meta for code generation and understanding. Supports multiple languages and is available in various sizes. :contentReference[oaicite:0]{index=0}
+            </li>
+            <li>
+              <strong>Mistral 7B</strong>: A high-performance open-source LLM designed for efficient natural language and code generation tasks. :contentReference[oaicite:1]{index=1}
+            </li>
+            <li>
+              <strong>CodeBERT</strong>: Developed by Microsoft, this bimodal model supports programming and natural language tasks. :contentReference[oaicite:2]{index=2}
+            </li>
+            <li>
+              <strong>GraphCodeBERT</strong>: An extension of CodeBERT that incorporates data flow information for enhanced code analysis. :contentReference[oaicite:3]{index=3}
+            </li>
+            <li>
+              <strong>Llama 3</strong>: Meta’s latest LLM offering significant advancements in text and code generation, available in lightweight sizes for local use. :contentReference[oaicite:4]{index=4}
+            </li>
+          </ul>
+          <h3>Integration Guidelines for Mistral 7B</h3>
+          <ol>
+            <li>
+              <strong>Understand Mistral 7B's Requirements:</strong> Mistral 7B is a 7.3 billion parameter model that outperforms larger models like Llama 2 13B on various benchmarks. It uses Grouped-query Attention (GQA) and Sliding Window Attention (SWA) for efficient performance and is released under the Apache 2.0 license. :contentReference[oaicite:5]{index=5}
+            </li>
+            <li>
+              <strong>Set Up the Backend Environment:</strong>
+              <ul>
+                <li>Ensure Python is installed.</li>
+                <li>Install necessary libraries with: <code>pip install transformers torch</code></li>
+              </ul>
+            </li>
+            <li>
+              <strong>Acquire the Mistral 7B Model:</strong> Download the model from Hugging Face or the official Mistral AI repository, ensuring you have enough storage and memory.
+            </li>
+            <li>
+              <strong>Develop a Backend Service for Model Inference:</strong>
+              <pre><code>from fastapi import FastAPI, Request
+    from transformers import AutoModelForCausalLM, AutoTokenizer
+    import torch
+    
+    app = FastAPI()
+    
+    model_name = "mistralai/Mistral-7B"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16)
+    
+    @app.post("/generate")
+    async def generate_text(request: Request):
+        data = await request.json()
+        input_text = data.get("input_text", "")
+        inputs = tokenizer(input_text, return_tensors="pt")
+        outputs = model.generate(**inputs)
+        generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return {"generated_text": generated_text}
+    </code></pre>
+            </li>
+            <li>
+              <strong>Integrate the Backend Service with Your Electron App:</strong>
+              <pre><code>async function getGeneratedText(inputText) {
+      const response = await fetch('http://localhost:8000/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input_text: inputText }),
+      });
+      const data = await response.json();
+      return data.generated_text;
+    }
+    </code></pre>
+            </li>
+            <li>
+              <strong>Ensure Local Operation:</strong> Configure both the backend service and the Electron app to run locally so that all AI capabilities work offline.
+            </li>
+            <li>
+              <strong>Optimize Performance:</strong>
+              <ul>
+                <li>Utilize GPU acceleration if available.</li>
+                <li>Consider model quantization techniques for efficiency. :contentReference[oaicite:6]{index=6}</li>
+              </ul>
+            </li>
+            <li>
+              <strong>Test and Validate:</strong> Perform thorough testing to ensure seamless integration and optimal performance.
+            </li>
+          </ol>
+          <p>
+            For a visual guide on setting up Mistral 7B locally, check out the video:
+            <a href="https://example.com/mistral7b-video" target="_blank">
+              Get Started with Mistral 7B Locally in 6 Minutes
+            </a>
+            <!--  -->
+          </p>
+        </section>
+      </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 iFusionOne Open Source Project. All rights reserved.</p>
+  </footer>
 </body>
 </html>
