@@ -1,71 +1,154 @@
+/* Overall header container */
 .header {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    background-color: #1d1f23;
-    height: 36px;
-    padding: 0 12px;
+    justify-content: space-between;
+    background-color: rgba(44, 44, 46, 0.9);
+    /* Slightly translucent dark */
+    height: 40px;
+    padding: 0 10px;
     color: #fff;
-    border-radius: 8px 8px 0 0;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     -webkit-app-region: drag;
-    position: relative;
-    flex-direction: row;
-    align-content: center;
-    flex-wrap: nowrap;
+    gap: 20px;
 }
 
-.header-body{
+/* Left section: window controls (non-draggable) */
+.header-left {
     display: flex;
-}
-.header-controls {
-    display: flex;
-    gap: 8px;
+    align-items: center;
     -webkit-app-region: no-drag;
 }
 
+.header-controls {
+    display: flex;
+    gap: 10px;
+}
+
 .header-button {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
-/* Close Button - Red */
+/* Apple-inspired window control colors */
 .close-btn {
     background-color: #ff5f57;
 }
+
 .close-btn:hover {
     background-color: #e0443f;
 }
 
-/* Minimize Button - Yellow */
 .minimize-btn {
     background-color: #ffbd2e;
 }
+
 .minimize-btn:hover {
-    background-color: #e1a617;
+    background-color: #e1a230;
 }
 
-/* Maximize Button - Green */
 .maximize-btn {
     background-color: #28c940;
 }
+
 .maximize-btn:hover {
     background-color: #1da230;
 }
 
-/* Centered Title */
+/* Center section: tab bar and title */
+.header-center {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    -webkit-app-region: drag;
+    pointer-events: none;
+}
+
+.tabs {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: auto;
+    -webkit-app-region: no-drag;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+}
+
+.tab {
+    display: flex;
+    align-items: center;
+    background-color: rgba(58, 60, 64, 0.9);
+    padding: 6px 12px;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tab:hover {
+    background-color: rgba(74, 76, 80, 0.9);
+    transform: translateY(-1px);
+}
+
+.tab.active {
+    background-color: rgba(90, 92, 96, 1);
+    box-shadow: inset 0 -3px 0 0 #0a84ff;
+    /* Blue indicator for active tab */
+}
+
+.tab-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+.tab-close-btn {
+    background: transparent;
+    border: none;
+    color: #bbb;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+.tab-close-btn:hover {
+    color: #fff;
+}
+
+.add-tab-btn {
+    background: transparent;
+    border: none;
+    color: #0a84ff;
+    /* Blue accent for add button */
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.add-tab-btn:hover {
+    background-color: rgba(10, 132, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Header title (if used) */
 .header-title {
     font-size: 14px;
-    font-weight: bold;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    pointer-events: none; /* Prevents title from blocking draggability */
+    font-weight: 500;
+    pointer-events: none;
     -webkit-app-region: drag;
+}
+
+/* Right section (reserved for future controls, non-draggable) */
+.header-right {
+    width: 40px;
+    -webkit-app-region: no-drag;
 }

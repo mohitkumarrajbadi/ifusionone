@@ -1,32 +1,44 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import { getPreloadPath, getUIPath, getAIModelPath, getCompilerFilePath } from './pathResolver.js';
+import { getPreloadPath, getUIPath, getExtensionFilePath } from './pathResolver.js';
 import { isDev } from './util.js';
-import { getLlama, LlamaChatSession } from 'node-llama-cpp';
-import { exec } from 'child_process';
-import * as fs from 'fs';
-import * as path from 'path';
-import codeCompiler from './compiler/codeCompiler.js';
-
+import codeCompiler from './CodeCompileManager/codeCompiler.js';
+import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './TabManager/TabManager.js';
+import { runAI } from './AiManager/AiManager.js';
 let mainWindow: BrowserWindow | null = null;
 
-app.whenReady().then(() => {
+function createWindow() {
   mainWindow = new BrowserWindow({
     transparent: true,
+    frame: false,
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
-      nodeIntegration: false, // Disables node integration for security
+      nodeIntegration: false,
     },
-    frame: false,
   });
 
-  if (!isDev()) {
-    mainWindow.loadFile(getUIPath());
-  } else {
+  if (isDev()) {
     mainWindow.loadURL('http://localhost:5123');
+  } else {
+    mainWindow.loadFile(getUIPath());
   }
 
-  // Window Controls
+  setupWindowControls();
+  setupIpcHandlers();
+
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
+
+  // Update active tab bounds on window resize.
+  mainWindow.on('resize', () => {
+    if (!mainWindow) return;
+    // Use the active tab id from tabmanager.
+    switchToTab(activeTabId, mainWindow);
+  });
+}
+
+function setupWindowControls() {
   ipcMain.on('minimize', () => mainWindow?.minimize());
   ipcMain.on('maximize', () => {
     if (mainWindow) {
@@ -34,41 +46,74 @@ app.whenReady().then(() => {
     }
   });
   ipcMain.on('close', () => mainWindow?.close());
-  mainWindow.on('closed', () => (mainWindow = null));
+}
 
-  // AI Test Function
+function setupIpcHandlers() {
   ipcMain.on('testAI', async () => {
+    runAI();
+  });
+
+  ipcMain.on('compile-code', async (event, { code, language }) => {
     try {
-      const aiModelPath = getAIModelPath();
-      console.log("AI Model Path:", aiModelPath);
-
-      const llama = await getLlama();
-      const model = await llama.loadModel({
-        modelPath: path.join(aiModelPath, "llama-3.2-3b-instruct.Q2_K.gguf"),
-      });
-
-      const context = await model.createContext();
-      const session = new LlamaChatSession({ contextSequence: context.getSequence() });
-
-      console.log("AI Response:", await session.prompt("Hi there, how are you?"));
-      console.log("AI Code Suggestion:", await session.prompt("Give me a python code for Binary Search"));
-    } catch (error: unknown) {
-      console.error("AI Error:", error instanceof Error ? error.message : "Unknown error");
+      const response = await codeCompiler(event, { code, language });
+      console.log('Compilation Result:', response);
+    } catch (error) {
+      console.error('Error during compilation:', error);
     }
   });
 
-
-  ipcMain.on('compile-code', async (event, { code, language }) => {
-      try {
-    const response = await codeCompiler(event, { code, language });
-    console.log('Compilation Result:', response);
-  } catch (error) {
-    console.error('Error during compilation:', error);
-  }
+  // ADD_TAB: Create a new tab.
+  ipcMain.on('ADD_TAB', (event, extensionName: string) => {
+    if (!mainWindow) return;
+    const extensionPath = getExtensionFilePath(extensionName);
+    const newTabId = createWebContentView(extensionPath, mainWindow);
+    switchToTab(newTabId, mainWindow);
+    event.reply('TAB_ADDED', newTabId);
   });
 
+  // CLOSE_TAB: Close a tab by its id.
+  ipcMain.on('CLOSE_TAB', (event, tabId: number) => {
+    if (!mainWindow) return;
+    closeWebContentView(tabId, mainWindow);
+    event.reply('TAB_CLOSED', tabId);
+  });
 
+  // SWITCH_TAB: Switch to a given tab.
+  ipcMain.on('SWITCH_TAB', (event, tabId: number) => {
+    if (!mainWindow) return;
+    console.log('Switch Tab request for tabId:', tabId);
+    switchToTab(tabId, mainWindow);
+    event.reply('TAB_SWITCHED', tabId);
+  });
 
+  // Legacy channels for extensions.
+  ipcMain.on('open-extension', (event, extensionName: string) => {
+    if (!mainWindow) return;
+    const extensionPath = getExtensionFilePath(extensionName);
+    const newTabId = createWebContentView(extensionPath, mainWindow);
+    switchToTab(newTabId, mainWindow);
+    event.reply('TAB_ADDED', newTabId);
+  });
 
+  ipcMain.on('close-extension', (event, extensionName: string, tabId: number) => {
+    if (!mainWindow) return;
+    closeWebContentView(tabId, mainWindow);
+    event.reply('TAB_CLOSED', tabId);
+  });
 
+  ipcMain.on('create-database', async (event) => {
+    const db = await open({
+      filename: '/tmp/database.db',
+      driver: sqlite.Database
+    })
+  });
+
+}
+
+app.whenReady().then(createWindow);
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
+app.on('activate', () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
 });

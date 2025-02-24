@@ -9,5 +9,12 @@ electron_1.contextBridge.exposeInMainWorld('versions', {
 electron_1.contextBridge.exposeInMainWorld('electron', {
     sendFrameAction: (action) => electron_1.ipcRenderer.send(action.toLowerCase()),
     testAI: (query) => electron_1.ipcRenderer.send('testAI', query),
-    compileCode: (code, language) => electron_1.ipcRenderer.send('compile-code', { code, language })
+    compileCode: (code, language) => electron_1.ipcRenderer.send('compile-code', { code, language }),
+    // New tab actions
+    addTab: (extensionName) => electron_1.ipcRenderer.send('ADD_TAB', extensionName),
+    closeTab: (tabId) => electron_1.ipcRenderer.send('CLOSE_TAB', tabId),
+    switchTab: (tabId) => electron_1.ipcRenderer.send('SWITCH_TAB', tabId),
+    // Legacy channels if needed
+    openExtension: (extensionName) => electron_1.ipcRenderer.send('open-extension', extensionName),
+    closeExtension: (extensionName, tabId) => electron_1.ipcRenderer.send('close-extension', extensionName, tabId)
 });

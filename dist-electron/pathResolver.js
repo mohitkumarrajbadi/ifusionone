@@ -16,3 +16,6 @@ export function getAIModelPath() {
 export function getCompilerFilePath() {
     return path.join(app.getAppPath(), isDev() ? '.' : '..', '/src/electron/compiler/compiler_files');
 }
+export function getExtensionFilePath(extensionName) {
+    return path.join(app.getAppPath(), isDev() ? '.' : '..', `src/plugins/${extensionName}/index.html`);
+}

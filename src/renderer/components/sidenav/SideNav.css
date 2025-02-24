@@ -1,20 +1,20 @@
-/* Side Navigation Styles */
+/* Overall side navigation container */
 .side-nav {
     font-weight: 600;
     height: 100vh;
     width: 260px;
-    background: rgba(44, 47, 56, 0.9); /* Semi-transparent dark background */
-    backdrop-filter: blur(15px); /* Enhanced frosted glass effect */
+    background: rgba(44, 44, 46, 0.9); /* Matches header background */
+    backdrop-filter: blur(15px);
     color: #E2E8F0;
     display: flex;
     flex-direction: column;
     padding-top: 20px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Softer shadow for depth */
-    border-right: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
     transition: width 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Navigation List */
+/* Navigation list */
 .side-nav-list {
     list-style: none;
     padding: 0;
@@ -22,64 +22,57 @@
     flex-grow: 1;
 }
 
-/* Navigation Items */
+/* Navigation items */
 .side-nav-list li {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 12px 24px;
+    gap: 12px;
+    padding: 10px 20px;
     cursor: pointer;
     font-size: 1rem;
-    border-radius: 8px;
-    transition: transform 0.3s ease, background 0.3s ease-in-out;
-    margin: 5px 0; 
-    flex-direction: column;
+    border-radius: 6px;  /* Match the header's rounded style */
+    transition: transform 0.2s ease, background 0.2s ease-in-out;
+    margin: 4px 0;
 }
 
-/* Navigation Links */
+/* Navigation links */
 .side-nav-list li a {
     display: flex;
     text-decoration: none;
     color: inherit;
     align-items: center;
-    gap: 12px;
-    padding: 10px 20px;
+    gap: 10px;
+    padding: 8px 16px;
     width: 100%;
-    border-radius: 8px;
-    transition: background 0.3s ease, color 0.3s ease;
+    border-radius: 6px;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
-/* Ensuring Icon Size is Fixed */
+/* Icon styling */
 .side-nav-list li svg {
-    font-size: 1.4rem; /* Fixed size for all icons */
-    min-width: 24px; /* Ensures icons don't shrink */
+    font-size: 1.4rem;
+    min-width: 24px;
     min-height: 24px;
     color: #A0AEC0;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 
-/* Active State */
+/* Active state */
 .side-nav-list li a.active {
-    background: rgba(255, 255, 255, 0.1); /* Light background for active link */
-    color: #4A90E2; /* Light blue accent color */
+    background: rgba(10, 132, 255, 0.15); /* Subtle blue tint */
+    color: #0a84ff;  /* Same blue accent as header */
 }
 
-/* Hover Effect */
+/* Hover effects */
 .side-nav-list li a:hover {
-    background: rgba(255, 255, 255, 0.15);
-    /* transform: translateX(5px); */
+    background: rgba(255, 255, 255, 0.08);
 }
 
-/* Active Link Hover */
-.side-nav-list li a.active:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* Icon Hover Effect */
 .side-nav-list li a:hover svg {
-    color: #4A90E2;
+    color: #0a84ff;
 }
 
+/* Responsive adjustments */
 /* Medium Screens (1024px and below) */
 @media (max-width: 1024px) {
     .side-nav {
@@ -89,7 +82,7 @@
 
     .side-nav-list li {
         font-size: 1rem;
-        padding: 12px 18px;
+        padding: 10px 18px;
     }
 }
 
@@ -102,6 +95,6 @@
 
     .side-nav-list li {
         font-size: 0.9rem;
-        padding: 10px 15px;
+        padding: 8px 15px;
     }
 }
