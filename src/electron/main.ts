@@ -4,6 +4,8 @@ import { isDev } from './util.js';
 import codeCompiler from './CodeCompileManager/codeCompiler.js';
 import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './TabManager/TabManager.js';
 import { runAI } from './AiManager/AiManager.js';
+import { open } from 'sqlite';
+
 let mainWindow: BrowserWindow | null = null;
 
 function createWindow() {
@@ -102,10 +104,7 @@ function setupIpcHandlers() {
   });
 
   ipcMain.on('create-database', async (event) => {
-    const db = await open({
-      filename: '/tmp/database.db',
-      driver: sqlite.Database
-    })
+    
   });
 
 }
