@@ -1,26 +1,102 @@
+/* ==================== */
+/*       app.css        */
+/* ==================== */
+
+:root {
+  /* Core */
+  --transition: all 0.3s ease;
+  --border-radius: 12px;
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", sans-serif;
+
+  /* Global Background & Text (Light Mode) */
+  --bg-color: #fafafa;              /* Soft, off-white overall background */
+  --text-color: #333333;            /* Dark, legible text */
+  --content-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+
+  /* Header Specific (Light Mode) */
+  --header-bg: linear-gradient(135deg, #e8e8e8, #ffffff); /* Subtle gradient */
+  --header-text: #444444;
+  --tab-bg: #e0e0e0;
+  --tab-hover-bg: #d3d3d3;
+  --active-tab-bg: #ffffff;
+  --active-tab-indicator: #007aff;   /* Signature Apple blue */
+  --add-tab-color: #007aff;
+
+  /* Content Areas */
+  --content-bg: rgba(255, 255, 255, 0.85);  /* Slight transparency for glass effect */
+  --content-border: rgba(0, 0, 0, 0.05);
+
+  /* Side Navigation (Light Mode) */
+  --side-nav-bg: rgba(255, 255, 255, 0.92);
+  --side-nav-text: #333333;
+  --side-nav-border: rgba(0, 0, 0, 0.05);
+  --side-nav-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  --side-nav-hover-bg: rgba(0, 0, 0, 0.03);
+}
+
+body.dark-mode {
+  /* Global Background & Text (Dark Mode) */
+  --bg-color: #1c1c1e;
+  --text-color: #e5e5ea;
+  --content-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  /* Header Specific (Dark Mode) */
+  --header-bg: linear-gradient(135deg, #2c2c2e, #1c1c1e);
+  --header-text: #ffffff;
+  --tab-bg: #2c2c2e;
+  --tab-hover-bg: #3a3a3c;
+  --active-tab-bg: #1c1c1e;
+  --active-tab-indicator: #0a84ff;
+  --add-tab-color: #0a84ff;
+
+  /* Content Areas */
+  --content-bg: rgba(44, 44, 46, 0.85);
+  --content-border: rgba(255, 255, 255, 0.1);
+
+  /* Side Navigation (Dark Mode) */
+  --side-nav-bg: rgba(44, 44, 46, 0.92);
+  --side-nav-text: #e5e5ea;
+  --side-nav-border: rgba(255, 255, 255, 0.1);
+  --side-nav-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+  --side-nav-hover-bg: rgba(255, 255, 255, 0.05);
+}
+
+/* ==================== */
+/*       Base Styles    */
+/* ==================== */
+
 /* Root Styles */
 #root {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", sans-serif; 
+  font-family: var(--font-family);
   display: flex;
   flex-direction: column;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: var(--transition);
+  height: 100vh;
 }
 
 /* Main App Container */
 .app-container {
   display: flex;
   width: 100%;
-  height: 100%;
-  transition: all 0.3s ease; 
+  height: 97vh;
+  transition: var(--transition);
 }
 
 /* Content Container */
 .content {
   width: -webkit-fill-available;
+  margin: 20px;
   padding: 25px 30px;
-  background-color: #fff;
-  /* border-radius: 12px; */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--content-bg);
+  border: 1px solid var(--content-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--content-shadow);
+  backdrop-filter: blur(8px);
+  /* Glassmorphism effect */
   overflow: hidden;
   position: relative;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  color: var(--text-color);
 }

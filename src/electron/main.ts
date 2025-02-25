@@ -4,7 +4,6 @@ import { isDev } from './util.js';
 import codeCompiler from './CodeCompileManager/codeCompiler.js';
 import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './TabManager/TabManager.js';
 import { runAI } from './AiManager/AiManager.js';
-import { open } from 'sqlite';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -44,7 +43,8 @@ function setupWindowControls() {
   ipcMain.on('minimize', () => mainWindow?.minimize());
   ipcMain.on('maximize', () => {
     if (mainWindow) {
-      mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
+      // Toggle full-screen mode
+      mainWindow.setFullScreen(!mainWindow.isFullScreen());
     }
   });
   ipcMain.on('close', () => mainWindow?.close());

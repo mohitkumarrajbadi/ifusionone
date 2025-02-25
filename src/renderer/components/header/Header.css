@@ -1,154 +1,159 @@
-/* Overall header container */
-.header {
+  /* Overall Header Container */
+  .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: rgba(44, 44, 46, 0.9);
-    /* Slightly translucent dark */
+    background-color: var(--header-bg);
     height: 40px;
     padding: 0 10px;
-    color: #fff;
+    color: var(--header-text);
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     -webkit-app-region: drag;
     gap: 20px;
-}
-
-/* Left section: window controls (non-draggable) */
-.header-left {
+    transition: var(--transition);
+  }
+  
+  /* Left Section: Window Controls (non-draggable) */
+  .header-left {
     display: flex;
     align-items: center;
     -webkit-app-region: no-drag;
-}
-
-.header-controls {
+  }
+  
+  .header-controls {
     display: flex;
     gap: 10px;
-}
-
-.header-button {
+  }
+  
+  .header-button {
     width: 12px;
     height: 12px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
     transition: background-color 0.2s ease;
-}
-
-/* Apple-inspired window control colors */
-.close-btn {
+  }
+  
+  /* Apple-Inspired Window Control Colors */
+  .close-btn {
     background-color: #ff5f57;
-}
-
-.close-btn:hover {
+  }
+  .close-btn:hover {
     background-color: #e0443f;
-}
-
-.minimize-btn {
+  }
+  
+  .minimize-btn {
     background-color: #ffbd2e;
-}
-
-.minimize-btn:hover {
+  }
+  .minimize-btn:hover {
     background-color: #e1a230;
-}
-
-.maximize-btn {
+  }
+  
+  .maximize-btn {
     background-color: #28c940;
-}
-
-.maximize-btn:hover {
+  }
+  .maximize-btn:hover {
     background-color: #1da230;
-}
-
-/* Center section: tab bar and title */
-.header-center {
+  }
+  
+  /* Center Section: Tab Bar and Title */
+  .header-center {
     flex: 1;
     display: flex;
     align-items: center;
     flex-direction: row;
     -webkit-app-region: drag;
     pointer-events: none;
-}
-
-.tabs {
+  }
+  
+  .tabs {
     display: flex;
     align-items: center;
     gap: 4px;
     pointer-events: auto;
     -webkit-app-region: no-drag;
-    flex-direction: row;
     flex-wrap: nowrap;
-    align-content: center;
     justify-content: flex-start;
-}
-
-.tab {
+  }
+  
+  .tab {
     display: flex;
     align-items: center;
-    background-color: rgba(58, 60, 64, 0.9);
+    background-color: var(--tab-bg);
     padding: 6px 12px;
     border-radius: 6px 6px 0 0;
     cursor: pointer;
     user-select: none;
     transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.tab:hover {
-    background-color: rgba(74, 76, 80, 0.9);
+  }
+  
+  .tab:hover {
+    background-color: var(--tab-hover-bg);
     transform: translateY(-1px);
-}
-
-.tab.active {
-    background-color: rgba(90, 92, 96, 1);
-    box-shadow: inset 0 -3px 0 0 #0a84ff;
-    /* Blue indicator for active tab */
-}
-
-.tab-title {
+  }
+  
+  .tab.active {
+    /* background-color: var(--active-tab-bg); */
+    background: rgba(10, 132, 255, 0.20); 
+    box-shadow: inset 0 -3px 0 0 var(--active-tab-indicator);
+    font-weight: bold;
+  }
+  
+  .tab-title {
     font-size: 13px;
     font-weight: 500;
     margin-right: 8px;
-}
-
-.tab-close-btn {
+  }
+  
+  .tab-close-btn {
     background: transparent;
     border: none;
     color: #bbb;
     cursor: pointer;
     padding: 0;
     transition: color 0.2s ease;
-}
-
-.tab-close-btn:hover {
+  }
+  
+  .tab-close-btn:hover {
     color: #fff;
-}
-
-.add-tab-btn {
+  }
+  
+  .add-tab-btn {
     background: transparent;
     border: none;
-    color: #0a84ff;
-    /* Blue accent for add button */
+    color: var(--add-tab-color);
     cursor: pointer;
     padding: 6px;
     border-radius: 6px;
     transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.add-tab-btn:hover {
+  }
+  
+  .add-tab-btn:hover {
     background-color: rgba(10, 132, 255, 0.1);
     transform: translateY(-1px);
-}
-
-/* Header title (if used) */
-.header-title {
+  }
+  
+  /* Header Title (if used) */
+  .header-title {
     font-size: 14px;
     font-weight: 500;
     pointer-events: none;
     -webkit-app-region: drag;
-}
-
-/* Right section (reserved for future controls, non-draggable) */
-.header-right {
-    width: 40px;
+  }
+  
+  /* Right Section (reserved for future controls, non-draggable) */
+  .header-right {
     -webkit-app-region: no-drag;
-}
+  }
+  
+  /* Theme Toggle Button */
+  .theme-toggle-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    padding: 5px;
+    -webkit-app-region: no-drag;
+  }
+  

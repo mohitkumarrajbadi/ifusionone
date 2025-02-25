@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { FaHome, FaPlus, FaTimes } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaHome, FaPlus, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
+
 import './Header.css';
 
 interface Tab {
@@ -8,10 +9,41 @@ interface Tab {
 }
 
 const Header: React.FC = () => {
-  // Initial tab: Home (id: 0)
+  // Tabs state
   const [tabs, setTabs] = useState<Tab[]>([{ id: 0, title: 'Home' }]);
   const [activeTab, setActiveTab] = useState<number>(0);
   const [draggedTabId, setDraggedTabId] = useState<number | null>(null);
+
+  // Theme state: default based on system preference.
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  // On component mount, set theme based on system setting.
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setDarkMode(mediaQuery.matches);
+
+    // Listen for changes to the system theme.
+    const handleChange = (e: MediaQueryListEvent) => {
+      setDarkMode(e.matches);
+    };
+    mediaQuery.addEventListener('change', handleChange);
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange);
+    };
+  }, []);
+
+  // Update the document body class to reflect the current theme.
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark-mode');
+    } else {
+      document.body.classList.remove('dark-mode');
+    }
+  }, [darkMode]);
+
+  const toggleTheme = () => {
+    setDarkMode(!darkMode);
+  };
 
   const sendFrameAction = (action: string) => {
     window.electron.sendFrameAction(action);
@@ -20,21 +52,18 @@ const Header: React.FC = () => {
   // Adds a new tab.
   const addTab = async () => {
     console.log("Inside Add Tab");
-    // Calculate new id.
     const newId = tabs.length ? Math.max(...tabs.map(tab => tab.id)) + 1 : 0;
     const newTab: Tab = { id: newId, title: `Tab ${newId}` };
     setTabs([...tabs, newTab]);
     setActiveTab(newId);
-    // Tell main process to add and switch to the new tab.
     await window.electron.addTab('testing');
     await window.electron.switchTab(newId);
   };
 
   // Closes a tab by id.
   const closeTab = async (id: number) => {
-    // Prevent closing the Home tab.
     if (id === 0) return;
-    if (tabs.length === 1) return; // Prevent closing the last remaining tab.
+    if (tabs.length === 1) return;
     setTabs(tabs.filter(tab => tab.id !== id));
     if (activeTab === id) {
       const newActive = tabs.find(tab => tab.id !== id)?.id ?? 0;
@@ -126,7 +155,10 @@ const Header: React.FC = () => {
         </div>
       </div>
       <div className="header-right">
-        {/* Reserved for future controls */}
+        {/* Theme Toggle Button */}
+        <button className="theme-toggle-btn" onClick={toggleTheme}>
+          {darkMode ? <FaSun size={16} /> : <FaMoon size={16} />}
+        </button>
       </div>
     </header>
   );

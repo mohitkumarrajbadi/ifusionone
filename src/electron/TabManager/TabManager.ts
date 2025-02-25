@@ -24,7 +24,7 @@ export function createWebContentView(extensionPath: string, mainWindow: BrowserW
       nodeIntegration: false,
     },
   });
-  
+
   // Add view to main window’s content view.
   (mainWindow as any).getContentView()?.addChildView(webView);
 
@@ -40,7 +40,6 @@ export function createWebContentView(extensionPath: string, mainWindow: BrowserW
   webView.setBounds(bounds);
 
   webContentViews[tabId] = webView;
-  console.log(`Tab ${tabId} added with content from ${extensionPath}`);
   return tabId;
 }
 
@@ -55,7 +54,6 @@ export function closeWebContentView(tabId: number, mainWindow: BrowserWindow): v
     (mainWindow as any).getContentView()?.removeChildView(webView);
     (webView.webContents as any).close();
     delete webContentViews[tabId];
-    console.log(`Tab ${tabId} closed.`);
   } else {
     console.log(`No tab with id ${tabId} found.`);
   }
@@ -68,30 +66,24 @@ export function closeWebContentView(tabId: number, mainWindow: BrowserWindow): v
  * @param mainWindow The main BrowserWindow.
  */
 export function switchToTab(tabId: number, mainWindow: BrowserWindow): void {
-  console.debug('--- switchToTab START ---');
-  console.debug('Incoming tabId:', tabId);
-  console.debug('Current activeTabId (before update):', activeTabId);
-  
+
+
   // Update the active tab id.
   activeTabId = tabId;
-  console.debug('Updated activeTabId:', activeTabId);
-  
+
   const { width, height } = mainWindow.getContentBounds();
-  console.debug('Main window bounds:', { width, height });
-  
+
   const contentView = (mainWindow as any).getContentView();
-  console.debug('Existing tab ids:', Object.keys(webContentViews));
-  
+
   // Remove all child views.
   Object.values(webContentViews).forEach((view: WebContentsView) => {
     try {
       contentView.removeChildView(view);
-      console.debug('Removed a child view:', view);
     } catch (err) {
       console.warn('Error removing child view:', err);
     }
   });
-  
+
   // Re-add only the active view.
   const activeView = webContentViews[activeTabId];
   if (activeView) {
@@ -99,10 +91,8 @@ export function switchToTab(tabId: number, mainWindow: BrowserWindow): void {
     const activeBounds = { x: 0, y: HEADER_HEIGHT, width, height: height - HEADER_HEIGHT };
     activeView.setBounds(activeBounds);
     activeView.webContents.focus();
-    console.debug(`Tab ${activeTabId} is now active. Setting bounds:`, activeBounds);
   } else {
     console.warn(`No view found for active tab id: ${activeTabId}`);
   }
-  
-  console.debug('--- switchToTab END ---');
+
 }

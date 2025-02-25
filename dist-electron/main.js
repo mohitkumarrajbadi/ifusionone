@@ -38,7 +38,8 @@ function setupWindowControls() {
     ipcMain.on('minimize', () => mainWindow?.minimize());
     ipcMain.on('maximize', () => {
         if (mainWindow) {
-            mainWindow.isMaximized() ? mainWindow.restore() : mainWindow.maximize();
+            // Toggle full-screen mode
+            mainWindow.setFullScreen(!mainWindow.isFullScreen());
         }
     });
     ipcMain.on('close', () => mainWindow?.close());
