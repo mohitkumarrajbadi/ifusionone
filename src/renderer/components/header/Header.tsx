@@ -56,7 +56,7 @@ const Header: React.FC = () => {
     const newTab: Tab = { id: newId, title: `Tab ${newId}` };
     setTabs([...tabs, newTab]);
     setActiveTab(newId);
-    await window.electron.addTab('testing');
+    await window.electron.addTab('codeeditor');
     await window.electron.switchTab(newId);
   };
 
