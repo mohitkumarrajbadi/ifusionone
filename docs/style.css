@@ -1,305 +1,279 @@
-/* ================================
-   iFusionOne - Mac OS & Golden Ratio Inspired CSS
-   ================================ */
+/* Import the Dot Matrix font from CDNFonts */
+@import url('https://fonts.cdnfonts.com/css/dot-matrix');
 
-/* ---------- Modular Scale & Global Variables ---------- */
+/* ==================== */
+/* Global Variables     */
+/* ==================== */
 :root {
-    /* Base sizing & golden ratio scale */
-    --base-size: 16px;
-    --scale-factor: 1.618;
-    --h1-size: 2.618rem;  /* ~41.9px */
-    --h2-size: 2rem;      /* 32px */
-    --h3-size: 1.618rem;  /* ~25.9px */
-    --h4-size: 1.25rem;   /* 20px */
+  /* Core */
+  --transition: all 0.3s ease;
+  --border-radius: 4px;
+  --font-family: 'Dot Matrix', monospace;
+
+  /* Global Colors (Monochrome) */
+  --bg-color: #ffffff;       /* White background */
+  --text-color: #000000;     /* Black text */
+  --accent-color: #000000;   /* Black accents */
+
+  /* Header */
+  --header-bg: #e0e0e0;      /* Light grey header */
+  --header-text: #000000;
+
+  /* Side Navigation */
+  --side-nav-bg: #f0f0f0;     /* Light grey side nav */
+  --side-nav-text: #000000;
+  --side-nav-border: #cccccc;
+
+  /* Content Areas */
+  --content-bg: #ffffff;      /* Pure white */
+  --content-border: #dddddd;
+
+  /* Shadows (optional, subtle) */
+  --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode variant uses inverted colors */
+body.dark {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+  --accent-color: #ffffff;
   
-    /* Light Mode Colors */
-    --bg-color: #ffffff;
-    --fg-color: #1c1c1e;
-    --accent-color: #007aff;
-    --nav-bg: rgba(255, 255, 255, 0.8);
-    --header-bg: linear-gradient(135deg, #f8f8f8, #ffffff);
-    --section-bg: #f7f7f7;
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
+  --header-bg: #222222;
+  --header-text: #ffffff;
   
-  body.dark {
-    /* Dark Mode Colors */
-    --bg-color: #1c1c1e;
-    --fg-color: #f2f2f7;
-    --accent-color: #0a84ff;
-    --nav-bg: rgba(28, 28, 30, 0.8);
-    --header-bg: linear-gradient(135deg, #2c2c2e, #1c1c1e);
-    --section-bg: #2c2c2e;
-    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  }
+  --side-nav-bg: #111111;
+  --side-nav-text: #ffffff;
+  --side-nav-border: #333333;
   
-  /* ---------- Global Resets & Base Styles ---------- */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  --content-bg: #000000;
+  --content-border: #333333;
   
-  html {
-    scroll-behavior: smooth;
-  }
-  
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "San Francisco", Helvetica, Arial, sans-serif;
-    font-size: var(--base-size);
-    background: var(--bg-color);
-    color: var(--fg-color);
-    line-height: 1.6;
-    transition: background var(--transition), color var(--transition);
-    height: 100vh;
-  }
-  
-  /* ---------- Header ---------- */
-  header {
-    background: var(--header-bg);
-    padding: 3rem 1rem;
-    text-align: center;
-    box-shadow: var(--card-shadow);
-    animation: fadeInDown 0.8s var(--transition);
-    position: relative;
-  }
-  
-  header h1 {
-    font-size: var(--h1-size);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.5px;
-  }
-  
-  header p {
-    font-size: 1.125rem;
-    opacity: 0.85;
-  }
-  
-  /* ---------- Dark Mode Toggle Button ---------- */
-  .dark-mode-toggle {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    background: var(--section-bg);
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    box-shadow: var(--card-shadow);
-    cursor: pointer;
-    transition: transform var(--transition), background var(--transition);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    color: var(--accent-color);
-  }
-  
-  .dark-mode-toggle:hover {
-    transform: scale(1.1);
-  }
-  
-  /* ---------- Navigation ---------- */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--nav-bg);
-    backdrop-filter: blur(10px);
-    padding: 0.8rem 1rem;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    animation: fadeIn 0.8s var(--transition);
-  }
-  
-  nav ul {
-    list-style: none;
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-  }
-  
-  nav ul li a {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: color var(--transition);
-  }
-  
-  nav ul li a:hover {
-    text-decoration: underline;
-  }
-  
-  /* ---------- Main Container ---------- */
-  .container {
-    max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 1rem;
-  }
-  
-  /* ---------- Sections (Card-Style) ---------- */
-  section {
-    background: var(--section-bg);
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
-    transition: transform var(--transition);
-    height: max-content;
-  }
-  
-  section:hover {
-    transform: translateY(-5px);
-  }
-  
-  /* ---------- Typography ---------- */
-  h2 {
-    font-size: var(--h2-size);
-    border-bottom: 2px solid var(--accent-color);
-    display: inline-block;
-    padding-bottom: 0.25rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  h3 {
-    font-size: var(--h3-size);
-    margin-top: 1.5rem;
-  }
-  
-  h4 {
-    font-size: var(--h4-size);
-    margin-top: 1.3rem;
-  }
-  
-  p, li {
-    font-size: 1rem;
-    margin-bottom: 0.8rem;
-  }
-  
-  /* ---------- Lists ---------- */
-  ul, ol {
-    margin-left: 1.5rem;
-    padding-left: 1rem;
-  }
-  
-  /* ---------- Code Blocks ---------- */
-  pre, code {
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-    background: rgba(0, 0, 0, 0.05);
-    color: var(--fg-color);
-    padding: 0.8rem;
-    border-radius: 8px;
-    overflow-x: auto;
-    font-size: 0.9rem;
-  }
-  
-  /* ---------- Footer ---------- */
-  footer {
-    background: var(--header-bg);
-    padding: 1.5rem;
-    text-align: center;
-    font-size: 0.9rem;
-    box-shadow: var(--card-shadow);
-  }
-  
-  /* ---------- Animations ---------- */
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  /* ---------- Responsive Design ---------- */
-  @media (max-width: 768px) {
-    header h1 {
-      font-size: 2rem;
-    }
-    nav ul {
-      flex-direction: column;
-      gap: 1rem;
-    }
-    section {
-      padding: 1.5rem;
-    }
-  }
-  
-  /* ================================
-     SLIDER Styles
-     ================================ */
-  .slider-container {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    margin: 2rem auto;
-  }
-  
-  .slider {
-    display: flex;
-    transition: transform 0.7s cubic-bezier(0.25, 1.3, 0.5, 1);
-  }
-  
-  .slider section {
-    flex: 0 0 100%;
-    padding: 2rem;
-    background: var(--section-bg);
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
-    transition: transform var(--transition);
-    margin: 1rem;
-    height: 45vh;
+  --shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== */
+/* Base Styles          */
+/* ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#root {
+  font-family: var(--font-family) !important;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-color);
+  color: var(--text-color);
+  transition: var(--transition);
+  height: 100vh;
+}
+
+.app-container {
+  display: flex;
+  width: 100%;
+  height: 97vh;
+  transition: var(--transition);
+}
+
+.content {
+  width: -webkit-fill-available;
+  margin: 20px;
+  padding: 25px 30px;
+  background: var(--content-bg);
+  border: 1px solid var(--content-border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(0); /* No extra blur for pure monochrome */
+  overflow: hidden;
+  position: relative;
+  transition: var(--transition);
+  color: var(--text-color);
+}
+
+/* ==================== */
+/* Header Styles        */
+/* ==================== */
+header {
+  background: var(--header-bg);
+  padding: 1rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  position: relative;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.5px;
+  font-family: var(--font-family);
+}
+
+header p {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+
+nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+nav ul{
+  display: flex;
+}
+
+
+nav li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  transition: transform 0.2s ease, background 0.2s ease;
+  margin: 4px 0;
+}
+
+nav li a {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  width: 100%;
+  border-radius: var(--border-radius);
+  transition: background 0.2s ease, color 0.2s ease;
+  text-align: center;
+}
+
+nav li a.active {
+  background: var(--accent-color);
+  color: var(--bg-color);
+}
+
+nav li a:hover {
+  background: var(--accent-color);
+  color: var(--bg-color);
+}
+
+/* ==================== */
+/* Typography & Others  */
+/* ==================== */
+h2, h3, h4, p, li {
+  font-family: var(--font-family);
+}
+
+pre, code {
+  font-family: var(--font-family);
+  padding: 0.8rem;
+  border-radius: var(--border-radius);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+
+/* Footer */
+footer {
+  background: var(--header-bg);
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: var(--shadow);
+}
+
+/* ==================== */
+/* Animations           */
+/* ==================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* ==================== */
+/* Slider Styles (if any) */
+/* ==================== */
+.slider-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  margin: 2rem auto;
+}
+
+.slider {
+  display: flex;
+  transition: transform 0.7s cubic-bezier(0.25, 1.3, 0.5, 1);
+}
+
+.slider section {
+  flex: 0 0 100%;
+  padding: 2rem;
+  background: var(--content-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  transition: transform var(--transition);
+  margin: 1rem;
+  height: 45vh;
   overflow: auto;
-  }
-  
-  /* Optionally disable transition when dragging */
-  .slider.active {
-    transition: none;
-  }
-  
-  /* ---------- Slider Navigation Arrows ---------- */
-  .arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: var(--accent-color);
-    color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    z-index: 10;
-    opacity: 0.8;
-    transition: opacity 0.3s;
-  }
-  
-  .arrow:hover {
-    opacity: 1;
-  }
-  
-  .left-arrow {
-    left: 10px;
-  }
-  
-  .right-arrow {
-    right: 10px;
-  }
-  
-  /* ---------- Image Styling inside Slides ---------- */
-  .logo {
-    max-width: 150px;
-    margin: 1rem 0;
-  }
-  
-  .cool-gif {
-    max-width: 100%;
-    border-radius: 8px;
-    margin: 1rem 0;
-  }
-  
+}
+
+.slider.active {
+  transition: none;
+}
+
+/* Slider Navigation Arrows */
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+
+.arrow:hover {
+  opacity: 1;
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
+
+/* Additional Utility Styles */
+.github-link {
+  padding: 10px 20px;
+  background-color: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: 16px;
+  font-family: var(--font-family);
+}
+
+.github-link:hover {
+  background-color: #000;
+}

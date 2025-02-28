@@ -15,6 +15,9 @@ contextBridge.exposeInMainWorld('electron', {
   closeTab: (tabId: number) => ipcRenderer.send('CLOSE_TAB', tabId),
   switchTab: (tabId: number) => ipcRenderer.send('SWITCH_TAB', tabId),
   // Legacy channels if needed
-  openExtension: (extensionName: string) => ipcRenderer.send('open-extension', extensionName),
-  closeExtension: (extensionName: string, tabId: number) => ipcRenderer.send('close-extension', extensionName, tabId)
+  // openExtension: (extensionName: string) => ipcRenderer.send('open-extension', extensionName),
+  // closeExtension: (extensionName: string, tabId: number) => ipcRenderer.send('close-extension', extensionName, tabId),
+  // Database Actions
+  insertPluginTable: () => ipcRenderer.send('insert-plugin-table'),
+  getAllPlugins: () => ipcRenderer.invoke('get-plugins')
 });

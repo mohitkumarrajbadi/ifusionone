@@ -1,0 +1,130 @@
+/* Container styles */
+.favourites-container {
+  padding: 1rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+  width: auto;
+}
+
+/* Header styles */
+.favourites-container h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Grid layout for plugin cards */
+.plugin-list {
+  display: grid;
+  gap: 1rem;
+  /* 4 columns on large screens */
+  grid-template-columns: repeat(4, 1fr);
+  padding: 1rem;
+  width: auto;
+}
+
+/* For medium screens, show 3 cards per row */
+@media (max-width: 1024px) {
+  .plugin-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* For smaller screens, show 2 cards per row */
+@media (max-width: 768px) {
+  .plugin-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+/* For very small screens, stack the cards */
+@media (max-width: 480px) {
+  .plugin-list {
+    grid-template-columns: 1fr;
+    overflow: ;
+  }
+}
+
+/* Plugin card styling */
+.plugin-card {
+  background: var(--content-bg);
+  border: 1px solid var(--content-border);
+  box-shadow: var(--content-shadow);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition);
+  width: auto;
+}
+
+.plugin-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Plugin header */
+.plugin-header h2 {
+  margin: 0;
+  color: var(--header-text);
+  font-size: 1.5rem;
+}
+
+/* Plugin body */
+.plugin-body p {
+  margin: 0.5rem 0;
+  color: var(--text-color);
+}
+
+/* Plugin footer */
+.plugin-footer {
+  margin-top: auto;
+  text-align: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Button styling */
+.plugin-footer button {
+  background-color: var(--active-tab-indicator);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+.plugin-footer button:hover {
+  background-color: var(--add-tab-color);
+}
+
+/* No plugins message */
+.no-plugins {
+  text-align: center;
+  width: 100%;
+  font-style: italic;
+}
+
+.delete-button {
+  background-color: none !important;
+  background: none !important;
+  size: 20px;
+  font-size: x-large;
+  color: red !important;
+}
+
+.open-button{
+  font-size: medium;
+}

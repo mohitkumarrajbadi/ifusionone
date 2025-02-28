@@ -4,6 +4,7 @@ import { isDev } from './util.js';
 import codeCompiler from './CodeCompileManager/codeCompiler.js';
 import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './TabManager/TabManager.js';
 import { runAI } from './AiManager/AiManager.js';
+import {getAllPlugins, insertPlugin } from './DatabaseManager/DatabaseManager.js';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -89,22 +90,38 @@ function setupIpcHandlers() {
   });
 
   // Legacy channels for extensions.
-  ipcMain.on('open-extension', (event, extensionName: string) => {
-    if (!mainWindow) return;
-    const extensionPath = getExtensionFilePath(extensionName);
-    const newTabId = createWebContentView(extensionPath, mainWindow);
-    switchToTab(newTabId, mainWindow);
-    event.reply('TAB_ADDED', newTabId);
+  // ipcMain.on('open-extension', (event, extensionName: string) => {
+  //   if (!mainWindow) return;
+  //   const extensionPath = getExtensionFilePath(extensionName);
+  //   const newTabId = createWebContentView(extensionPath, mainWindow);
+  //   switchToTab(newTabId, mainWindow);
+  //   event.reply('TAB_ADDED', newTabId);
+  // });
+
+  // ipcMain.on('close-extension', (event, extensionName: string, tabId: number) => {
+  //   if (!mainWindow) return;
+  //   closeWebContentView(tabId, mainWindow);
+  //   event.reply('TAB_CLOSED', tabId);
+  // });
+
+  // Database Operations
+  ipcMain.on('createTable', () => {
+    console.log('Invoke Testing DB')
+    // createTable();
   });
 
-  ipcMain.on('close-extension', (event, extensionName: string, tabId: number) => {
-    if (!mainWindow) return;
-    closeWebContentView(tabId, mainWindow);
-    event.reply('TAB_CLOSED', tabId);
+  ipcMain.on('insert-plugin-table',() => {
+    insertPlugin();
   });
 
-  ipcMain.on('create-database', async (event) => {
-    
+  ipcMain.handle('get-plugins', async () => {
+    try {
+      const plugins = await getAllPlugins(); // Wait for DB response
+      return plugins; // Return plugins to the renderer process
+    } catch (error) {
+      console.error("Failed to fetch plugins:", error);
+      return []; // Return an empty array on error
+    }
   });
 
 }

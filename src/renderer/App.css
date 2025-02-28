@@ -95,7 +95,7 @@ body.dark-mode {
   box-shadow: var(--content-shadow);
   backdrop-filter: blur(8px);
   /* Glassmorphism effect */
-  overflow: hidden;
+  overflow: scroll;
   position: relative;
   transition: var(--transition);
   color: var(--text-color);
