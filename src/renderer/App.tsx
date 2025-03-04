@@ -6,6 +6,7 @@ import Settings from './components/settings/Settings';
 import Store from './components/store/Store';
 import Favourites from './components/favourites/Favourites';
 import Header from './components/header/Header';
+import { AiSpace } from './components/aispace/AiSpace';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <SideNav />
         <div className='content'>
           <Routes>
+            <Route path='/aispace' element={<AiSpace />}/>
             <Route path='/' element={<Favourites />} />
             <Route path='/store' element={<Store />} />
             <Route path='/settings' element={<Settings />} />

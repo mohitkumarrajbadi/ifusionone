@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { MdDelete, MdOpenInBrowser } from "react-icons/md";
 import './Favourites.css';
+import { useTabs } from '../utils/tabUtils';
 
 const Favourites = () => {
   const [pluginList, setPluginList] = useState([]);
+    const { tabs, activeTab, addTab, closeTab, switchTab, reorderTabs } = useTabs();
+  
   useEffect(() => {
     const fetchPlugins = async () => {
       try {
@@ -25,7 +28,8 @@ const Favourites = () => {
 
   const handleOpenPlugin = (pluginName: string) => {
     // Using the Electron API to add a new tab (you can later replace 'testing' with pluginName).
-    window.electron.addTab('testing');
+    // window.electron.addTab(pluginName);
+    addTab(pluginName);
   };
 
   return (

@@ -19,5 +19,7 @@ contextBridge.exposeInMainWorld('electron', {
   // closeExtension: (extensionName: string, tabId: number) => ipcRenderer.send('close-extension', extensionName, tabId),
   // Database Actions
   insertPluginTable: () => ipcRenderer.send('insert-plugin-table'),
-  getAllPlugins: () => ipcRenderer.invoke('get-plugins')
+  getAllPlugins: () => ipcRenderer.invoke('get-plugins'),
+  initializeAI: () => ipcRenderer.invoke("initialize-ai"),
+    chatWithAI: (prompt: string) => ipcRenderer.invoke("chat-with-ai", prompt)
 });

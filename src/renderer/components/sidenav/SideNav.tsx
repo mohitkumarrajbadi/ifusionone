@@ -1,12 +1,21 @@
 import React from 'react';
 import './SideNav.css';
-import { FaGear, FaStore, FaStar } from "react-icons/fa6";
+import { FaGear, FaStore, FaStar, FaAtom } from "react-icons/fa6";
 import { NavLink } from 'react-router-dom';
 
 const SideNav: React.FC = () => {
     return (
         <nav className='side-nav'>
             <ul className='side-nav-list'>
+                <li>
+                    <NavLink
+                        to="/aispace"
+                        activeClassName="active"
+                    >
+                        <FaAtom />
+                        <span>AI Space</span>
+                    </NavLink>
+                </li>
                 <li>
                     <NavLink
                         to="/"

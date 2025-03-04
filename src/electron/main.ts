@@ -3,8 +3,8 @@ import { getPreloadPath, getUIPath, getExtensionFilePath } from './pathResolver.
 import { isDev } from './util.js';
 import codeCompiler from './CodeCompileManager/codeCompiler.js';
 import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './TabManager/TabManager.js';
-import { runAI } from './AiManager/AiManager.js';
-import {getAllPlugins, insertPlugin } from './DatabaseManager/DatabaseManager.js';
+import { chatWithAI, initializeAI } from './AiManager/AiManager.js';
+import { getAllPlugins, insertPlugin } from './DatabaseManager/DatabaseManager.js';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -51,9 +51,15 @@ function setupWindowControls() {
   ipcMain.on('close', () => mainWindow?.close());
 }
 
+/* AI Manager method calls */
+
 function setupIpcHandlers() {
-  ipcMain.on('testAI', async () => {
-    runAI();
+  ipcMain.handle("initialize-ai", async () => {
+    await initializeAI();
+  });
+
+  ipcMain.handle("chat-with-ai", async (_event, prompt) => {
+    return await chatWithAI(prompt);
   });
 
   ipcMain.on('compile-code', async (event, { code, language }) => {
@@ -110,7 +116,7 @@ function setupIpcHandlers() {
     // createTable();
   });
 
-  ipcMain.on('insert-plugin-table',() => {
+  ipcMain.on('insert-plugin-table', () => {
     insertPlugin();
   });
 
