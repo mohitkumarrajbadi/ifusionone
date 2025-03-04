@@ -2,9 +2,8 @@
 .ai-space {
     display: flex;
     flex-direction: column;
-    max-width: 800px;
-    height: 90vh;
-    margin: 2rem auto;
+    /* max-width: 800px; */
+    height: -webkit-fill-available;
     border-radius: var(--border-radius);
     background-color: var(--content-bg);
     box-shadow: var(--content-shadow);
@@ -148,5 +147,9 @@
   
   .ai-space-footer button:hover {
     background-color: var(--add-tab-color);
+  }
+  
+  :has(.ai-space) .content {
+    padding: 0 !important;
   }
   
