@@ -35,6 +35,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    max-height: 70vh;
   }
   
   /* Chat bubble styling inspired by iMessage */
@@ -153,3 +154,59 @@
     padding: 0 !important;
   }
   
+  /* Style for AI response container */
+.chat-bubble.incoming {
+  background: var(--content-bg);
+  color: var(--text-color);
+  border: 1px solid var(--content-border);
+  padding: 1rem;
+  border-radius: var(--border-radius);
+}
+
+/* Style for AI-generated headings */
+.ai-heading {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--active-tab-indicator);
+  margin-bottom: 0.5rem;
+}
+
+/* Code block styling */
+.code-block {
+  background: #1e1e1e;
+  color: #fff;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  position: relative;
+  font-family: 'Courier New', monospace;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  margin-top: 0.5rem;
+}
+
+/* Copy button */
+.copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--header-bg);
+  border: none;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.copy-button:hover {
+  background: var(--active-tab-indicator);
+}
+
+/* Important section highlighting */
+.ai-important {
+  background: rgba(255, 193, 7, 0.2);
+  border-left: 4px solid #ffc107;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  margin-top: 10px;
+  font-weight: bold;
+}

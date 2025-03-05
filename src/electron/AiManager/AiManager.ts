@@ -54,13 +54,10 @@ export async function initializeAI(): Promise<void> {
 }
 
 /**
- * Sends a prompt to the AI model using a chain-of-thought approach and returns the formatted final answer.
- *
- * The function instructs the model to first generate its chain-of-thought reasoning and then output the final answer
- * on a new line starting with "Final Answer:". It then extracts the final answer from the response.
+ * Sends a prompt to the AI model and returns the response.
  *
  * @param {string} prompt - The user prompt.
- * @returns {Promise<string>} The AI model's final response.
+ * @returns {Promise<string>} The AI model's response.
  * @throws Will throw an error if the session is not initialized.
  *
  * @see https://node-llama-cpp.withcat.ai/guide/chat-session
@@ -70,33 +67,8 @@ export async function chatWithAI(prompt: string): Promise<string> {
         throw new Error("AI session not initialized. Call initializeAI first.");
     }
     try {
-        // Construct a prompt that instructs the model to generate chain-of-thought reasoning
-        // followed by a final answer marked with "Final Answer:".
-        const chainPrompt = `Please think through the problem step by step.
-Provide your chain-of-thought reasoning first, then output the final answer on a new line starting with "Final Answer:".
-
-Example:
----
-Chain-of-Thought: [Detailed reasoning goes here...]
-Final Answer: [Concise final answer goes here...]
----
-Now, respond to the following prompt:
-${prompt}`;
-
-        const fullResponse = await session.prompt(chainPrompt);
-
-        // Extract the final answer using the delimiter.
-        const delimiter = "Final Answer:";
-        const delimiterIndex = fullResponse.indexOf(delimiter);
-        let formattedResponse = "";
-        if (delimiterIndex !== -1) {
-            formattedResponse = fullResponse.substring(delimiterIndex + delimiter.length).trim();
-        } else {
-            // Fallback if the delimiter is not found.
-            formattedResponse = fullResponse.trim();
-        }
-
-        return formattedResponse;
+        const response = await session.prompt(prompt);
+        return response.trim();
     } catch (error) {
         const errMsg = error instanceof Error ? error.message : "Unknown error";
         console.error("AI Chat Error:", errMsg);
