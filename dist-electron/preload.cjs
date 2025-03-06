@@ -21,5 +21,7 @@ electron_1.contextBridge.exposeInMainWorld('electron', {
     insertPluginTable: () => electron_1.ipcRenderer.send('insert-plugin-table'),
     getAllPlugins: () => electron_1.ipcRenderer.invoke('get-plugins'),
     initializeAI: () => electron_1.ipcRenderer.invoke("initialize-ai"),
-    chatWithAI: (prompt) => electron_1.ipcRenderer.invoke("chat-with-ai", prompt)
+    chatWithAI: (prompt) => electron_1.ipcRenderer.invoke("chat-with-ai", prompt),
+    searchDuckDuckGo: (query) => electron_1.ipcRenderer.invoke("search-duck-duck-go", query),
+    testingLangchain: (query) => electron_1.ipcRenderer.invoke("testing-langchain", query),
 });

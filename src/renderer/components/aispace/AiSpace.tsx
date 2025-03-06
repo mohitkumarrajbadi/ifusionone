@@ -1,74 +1,143 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, KeyboardEvent } from 'react';
 import './AiSpace.css';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { FiClipboard } from 'react-icons/fi';
+import ReactMarkdown from 'react-markdown';
+
+interface ChatResponsePart {
+  text: string;
+  isCode?: boolean;
+  language?: string;
+}
+
+interface ChatMessage {
+  type: 'incoming' | 'outgoing';
+  text?: string;
+  parts?: ChatResponsePart[];
+  isLoading?: boolean;
+}
 
 export const AiSpace = () => {
   const [userInput, setUserInput] = useState<string>("");
-  const [chatHistory, setChatHistory] = useState<{ text: string, type: 'incoming' | 'outgoing', isCode?: boolean }[]>([]);
+  const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [webSearchContext, setWebSearchContext] = useState<string>("");
 
   useEffect(() => {
     window.electron.initializeAI();
-    
   }, []);
 
+  /**
+   * Parses the raw AI response into parts of plain text or code blocks.
+   */
+  const parseAiResponse = (response: string): ChatResponsePart[] => {
+    const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g;
+    const parts: ChatResponsePart[] = [];
+    let lastIndex = 0;
+    let match: RegExpExecArray | null;
+
+    while ((match = codeBlockRegex.exec(response)) !== null) {
+      // Capture text before the code block.
+      if (match.index > lastIndex) {
+        const textSegment = response.slice(lastIndex, match.index).trim();
+        if (textSegment) {
+          parts.push({ text: textSegment });
+        }
+      }
+      // Capture the code block.
+      parts.push({
+        text: match[2].trim(),
+        isCode: true,
+        language: match[1] || "plaintext",
+      });
+      lastIndex = codeBlockRegex.lastIndex;
+    }
+    // Capture any remaining text.
+    if (lastIndex < response.length) {
+      const remainingText = response.slice(lastIndex).trim();
+      if (remainingText) {
+        parts.push({ text: remainingText });
+      }
+    }
+    return parts;
+  };
+
+  /**
+   * Handles sending the chat prompt to the AI, optionally including web search context.
+   */
   const handleSubmit = async () => {
     if (!userInput.trim()) return;
 
+    // Append user's message to chat.
     setChatHistory(prev => [...prev, { text: userInput, type: 'outgoing' }]);
     setLoading(true);
 
-    // Add a placeholder with an identifier for typing indicator
-    setChatHistory(prev => [...prev, { text: "", type: 'incoming', isLoading: true }]);
+    // Add a loading placeholder.
+    setChatHistory(prev => [...prev, { type: 'incoming', isLoading: true }]);
 
     try {
-      const aiResponse = await (window as any).electron.chatWithAI(userInput);
+      // Combine the web search context with the user's input.
+      // You might want to format it, for example:
+      // "Relevant web context:\n<webSearchContext>\nUser query:\n<userInput>"
+      const prompt = webSearchContext
+        ? `Relevant web context:\n${webSearchContext}\n\nUser query:\n${userInput}`
+        : userInput;
 
-      // Match code blocks using regex
-      const codeBlockRegex = /```(\w*)\n([\s\S]*?)```/g;
-      let match;
-      let parts: { text: string; isCode?: boolean; language?: string }[] = [];
-      let lastIndex = 0;
+      const aiResponse = await window.electron.chatWithAI(prompt);
+      const parts = parseAiResponse(aiResponse);
 
-      while ((match = codeBlockRegex.exec(aiResponse)) !== null) {
-        if (match.index > lastIndex) {
-          parts.push({ text: aiResponse.slice(lastIndex, match.index).trim() });
-        }
-
-        parts.push({
-          text: match[2].trim(),
-          isCode: true,
-          language: match[1] || "plaintext",
-        });
-
-        lastIndex = codeBlockRegex.lastIndex;
-      }
-
-      if (lastIndex < aiResponse.length) {
-        parts.push({ text: aiResponse.slice(lastIndex).trim() });
-      }
-
-      // Replace the last loading message with actual response
+      // Replace the loading message.
       setChatHistory(prev => {
         const updated = [...prev];
-        updated[updated.length - 1] = { type: "incoming", parts };
+        updated[updated.length - 1] = { type: 'incoming', parts };
         return updated;
       });
-
     } catch (error) {
       console.error("Error in AI chat:", error);
-      setChatHistory(prev => [...prev, { text: "Error getting response.", type: 'incoming' }]);
+      setChatHistory(prev => [
+        ...prev,
+        { text: "Error getting response.", type: 'incoming' }
+      ]);
     } finally {
       setLoading(false);
       setUserInput("");
+      // Optionally clear the web search context after use.
+      setWebSearchContext("");
     }
   };
 
+  /**
+   * Handles web search to retrieve relevant context.
+   * This function calls an IPC method exposed via Electron.
+   */
+  const handleWebSearch = async () => {
+    if (!userInput.trim()) return;
+    try {
+      // Call your Electron IPC channel to perform web search.
+      const searchResults = await window.electron.searchDuckDuckGo(userInput);
+      
+      // Process or summarize the search results as needed.
+      // For example, extract the top 3 results and create a markdown list.
+      const summary = searchResults
+        .slice(0, 3)
+        .map((result: any, idx: number) => `* **Result ${idx + 1}:** ${result.title} - ${result.snippet}`)
+        .join('\n');
 
+      setWebSearchContext(summary);
+      console.log("Web search context set:", summary);
+    } catch (error) {
+      console.error("Error fetching web search results:", error);
+      setWebSearchContext("No web context available.");
+    }
+  };
 
+  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
 
-
+  // Scroll chat container on new messages.
   useEffect(() => {
     const chatContainer = document.getElementById("chat-container");
     if (chatContainer) {
@@ -97,21 +166,29 @@ export const AiSpace = () => {
                 part.isCode ? (
                   <div key={i} className="code-block">
                     <CopyToClipboard text={part.text}>
-                      <button className="copy-button"><FiClipboard /></button>
+                      <button className="copy-button">
+                        <FiClipboard />
+                      </button>
                     </CopyToClipboard>
-                    <pre><code className={`language-${part.language || "plaintext"}`}>{part.text}</code></pre>
+                    <pre>
+                      <code className={`language-${part.language}`}>
+                        {part.text}
+                      </code>
+                    </pre>
                   </div>
                 ) : (
-                  <p key={i}>{part.text}</p>
+                  <div key={i} className="markdown-text">
+                    <ReactMarkdown>{part.text}</ReactMarkdown>
+                  </div>
                 )
               )
             ) : (
-              <p>{msg.text}</p>
+              <div className="markdown-text">
+                <ReactMarkdown>{msg.text || ""}</ReactMarkdown>
+              </div>
             )}
           </div>
         ))}
-
-
       </main>
       <footer className="ai-space-footer">
         <input
@@ -119,9 +196,16 @@ export const AiSpace = () => {
           placeholder="Your chat here..."
           value={userInput}
           onChange={(e) => setUserInput(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
+          onKeyPress={handleKeyPress}
         />
-        <button onClick={handleSubmit} disabled={loading || !userInput.trim()}>Send</button>
+        <div className="button-group">
+          {/* <button onClick={handleWebSearch} disabled={loading || !userInput.trim()}>
+            Web Search
+          </button> */}
+          <button onClick={handleSubmit} disabled={loading || !userInput.trim()}>
+            Send
+          </button>
+        </div>
       </footer>
     </div>
   );
