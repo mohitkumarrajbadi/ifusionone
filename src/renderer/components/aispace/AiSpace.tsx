@@ -1,7 +1,8 @@
+
 import { useState, useEffect, KeyboardEvent } from 'react';
 import './AiSpace.css';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import { FiClipboard } from 'react-icons/fi';
+import { FiClipboard,FiPauseCircle } from 'react-icons/fi';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatResponsePart {
@@ -24,7 +25,7 @@ export const AiSpace = () => {
   const [webSearchContext, setWebSearchContext] = useState<string>("");
 
   useEffect(() => {
-    // window.electron.initializeAI();
+    window.electron.invokeCommand("ai:initialize");
   }, []);
 
   /**
@@ -53,6 +54,7 @@ export const AiSpace = () => {
       lastIndex = codeBlockRegex.lastIndex;
     }
     // Capture any remaining text.
+    console.log("response : " + response)
     if (lastIndex < response.length) {
       const remainingText = response.slice(lastIndex).trim();
       if (remainingText) {
@@ -83,7 +85,7 @@ export const AiSpace = () => {
         ? `Relevant web context:\n${webSearchContext}\n\nUser query:\n${userInput}`
         : userInput;
 
-      const aiResponse = await window.electron.chatWithAI(prompt);
+      const aiResponse = await window.electron.invokeCommand("ai:chat",prompt);
       const parts = parseAiResponse(aiResponse);
 
       // Replace the loading message.
@@ -103,6 +105,19 @@ export const AiSpace = () => {
       setUserInput("");
       // Optionally clear the web search context after use.
       setWebSearchContext("");
+    }
+  };
+
+  /**
+    * Handles closing the current chat session.
+   **/
+
+  const handleCloseChatSession = async () => {
+    try {
+      await window.electron.invokeCommand("ai:close");
+      // setChatHistory([]);
+    } catch (error) {
+      console.error("Error closing AI session:", error);
     }
   };
 
@@ -205,6 +220,7 @@ export const AiSpace = () => {
           <button onClick={handleSubmit} disabled={loading || !userInput.trim()}>
             Send
           </button>
+          <button onClick={handleCloseChatSession}><FiPauseCircle></FiPauseCircle></button>
         </div>
       </footer>
     </div>

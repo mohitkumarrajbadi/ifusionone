@@ -1,3 +1,4 @@
+// preload.cts
 import { contextBridge, ipcRenderer } from 'electron';
 
 contextBridge.exposeInMainWorld('versions', {

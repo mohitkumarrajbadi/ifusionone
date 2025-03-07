@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+// preload.cts
 const electron_1 = require("electron");
 electron_1.contextBridge.exposeInMainWorld('versions', {
     node: () => process.versions.node,
