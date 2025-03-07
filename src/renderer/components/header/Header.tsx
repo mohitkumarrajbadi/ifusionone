@@ -1,12 +1,11 @@
+// Header.tsx
 import React, { useEffect, useCallback } from 'react';
 import { FaPlus, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
-import { useTabs } from '../utils/tabUtils';
+import { useTabs } from '../utils/TabsContext'; // Adjust the path as needed
 import './Header.css';
 
 const Header: React.FC = () => {
-  // Use the custom hook to manage tabs state.
   const { tabs, activeTab, addTab, closeTab, switchTab, reorderTabs } = useTabs();
-
   const [draggedTabId, setDraggedTabId] = React.useState<number | null>(null);
   const [darkMode, setDarkMode] = React.useState<boolean>(false);
 
@@ -25,12 +24,10 @@ const Header: React.FC = () => {
   }, [darkMode]);
 
   const toggleTheme = useCallback(() => setDarkMode((prev) => !prev), []);
-
   const sendFrameAction = useCallback((action: string) => {
     window.electron.sendFrameAction(action);
   }, []);
 
-  // Drag handlers.
   const onDragStart = useCallback((e: React.DragEvent<HTMLDivElement>, id: number) => {
     setDraggedTabId(id);
     e.dataTransfer.effectAllowed = 'move';

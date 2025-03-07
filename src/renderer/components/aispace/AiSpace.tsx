@@ -24,7 +24,7 @@ export const AiSpace = () => {
   const [webSearchContext, setWebSearchContext] = useState<string>("");
 
   useEffect(() => {
-    window.electron.initializeAI();
+    // window.electron.initializeAI();
   }, []);
 
   /**

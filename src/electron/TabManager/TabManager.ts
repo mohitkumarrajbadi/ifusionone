@@ -1,5 +1,7 @@
+// TabManager.ts
 import { BrowserWindow, WebContentsView } from 'electron';
 import { getPreloadPath } from '../pathResolver.js';
+import EventBus from '../core/EventBus/EventBus.js';
 
 const HEADER_HEIGHT = 40;
 let tabCounter = 0;
@@ -25,7 +27,7 @@ export function createWebContentView(extensionPath: string, mainWindow: BrowserW
     },
   });
 
-  // Add view to main window’s content view.
+  // Add the new view to the main window's content view.
   (mainWindow as any).getContentView()?.addChildView(webView);
 
   webView.webContents
@@ -33,13 +35,15 @@ export function createWebContentView(extensionPath: string, mainWindow: BrowserW
     .catch((err) => console.log("Failed loading the web content view: " + err));
 
   const { width, height } = mainWindow.getContentBounds();
-  // Show view if active; otherwise hide it.
   const bounds = tabId === activeTabId
     ? { x: 0, y: HEADER_HEIGHT, width, height: height - HEADER_HEIGHT }
     : { x: 0, y: HEADER_HEIGHT, width: 0, height: 0 };
   webView.setBounds(bounds);
 
   webContentViews[tabId] = webView;
+
+  // Emit event after a new tab is created.
+  EventBus.emit('tab-created', { tabId, extensionPath });
   return tabId;
 }
 
@@ -54,6 +58,8 @@ export function closeWebContentView(tabId: number, mainWindow: BrowserWindow): v
     (mainWindow as any).getContentView()?.removeChildView(webView);
     (webView.webContents as any).close();
     delete webContentViews[tabId];
+    // Emit event after closing a tab.
+    EventBus.emit('tab-closed', { tabId });
   } else {
     console.log(`No tab with id ${tabId} found.`);
   }
@@ -66,13 +72,8 @@ export function closeWebContentView(tabId: number, mainWindow: BrowserWindow): v
  * @param mainWindow The main BrowserWindow.
  */
 export function switchToTab(tabId: number, mainWindow: BrowserWindow): void {
-
-
-  // Update the active tab id.
   activeTabId = tabId;
-
   const { width, height } = mainWindow.getContentBounds();
-
   const contentView = (mainWindow as any).getContentView();
 
   // Remove all child views.
@@ -91,8 +92,9 @@ export function switchToTab(tabId: number, mainWindow: BrowserWindow): void {
     const activeBounds = { x: 0, y: HEADER_HEIGHT, width, height: height - HEADER_HEIGHT };
     activeView.setBounds(activeBounds);
     activeView.webContents.focus();
+    // Emit event after switching tabs.
+    EventBus.emit('tab-switched', { tabId });
   } else {
     console.warn(`No view found for active tab id: ${activeTabId}`);
   }
-
 }

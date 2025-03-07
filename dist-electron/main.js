@@ -7,6 +7,8 @@ import { chatWithAI, initializeAI } from './AiManager/AiManager.js';
 import { getAllPlugins, insertPlugin } from './DatabaseManager/DatabaseManager.js';
 import { searchDuckDuckGo } from './WebScrappingManager/WebScrappingManager.js';
 import { testingLangGraph } from './AiManager/TestingLangchain.js';
+import { CommandRegistry } from './core/CommandRegistry/CommandRegistry.js';
+import WindowService from './core/Services/WindowService.js';
 let mainWindow = null;
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -24,6 +26,11 @@ function createWindow() {
     else {
         mainWindow.loadFile(getUIPath());
     }
+    // Set the main window reference in the WindowService.
+    WindowService.setMainWindow(mainWindow);
+    // Register window and tab commands.
+    registerCommands();
+    // Setup IPC handlers.
     setupWindowControls();
     setupIpcHandlers();
     mainWindow.on('closed', () => {
@@ -31,20 +38,44 @@ function createWindow() {
     });
     // Update active tab bounds on window resize.
     mainWindow.on('resize', () => {
+        if (mainWindow) {
+            switchToTab(activeTabId, mainWindow);
+        }
+    });
+}
+// Register commands for window and tab management.
+function registerCommands() {
+    // Window Commands.
+    CommandRegistry.register('window:minimize', () => WindowService.minimize());
+    CommandRegistry.register('window:fullscreen', () => WindowService.toggleFullscreen());
+    CommandRegistry.register('window:close', () => WindowService.close());
+    // Tab Commands.
+    CommandRegistry.register('tab:add', (event, extensionName) => {
         if (!mainWindow)
             return;
-        switchToTab(activeTabId, mainWindow);
+        const extensionPath = getExtensionFilePath(extensionName);
+        const newTabId = createWebContentView(extensionPath, mainWindow);
+        switchToTab(newTabId, mainWindow);
+        event.reply('TAB_ADDED', newTabId);
+    });
+    CommandRegistry.register('tab:close', (event, tabId) => {
+        if (!mainWindow)
+            return;
+        closeWebContentView(tabId, mainWindow);
+        event.reply('TAB_CLOSED', tabId);
+    });
+    CommandRegistry.register('tab:switch', (event, tabId) => {
+        if (!mainWindow)
+            return;
+        switchToTab(tabId, mainWindow);
+        event.reply('TAB_SWITCHED', tabId);
     });
 }
 function setupWindowControls() {
-    ipcMain.on('minimize', () => mainWindow?.minimize());
-    ipcMain.on('maximize', () => {
-        if (mainWindow) {
-            // Toggle full-screen mode
-            mainWindow.setFullScreen(!mainWindow.isFullScreen());
-        }
-    });
-    ipcMain.on('close', () => mainWindow?.close());
+    // Route window control IPC calls to CommandRegistry.
+    ipcMain.on('minimize', () => CommandRegistry.execute('window:minimize'));
+    ipcMain.on('maximize', () => CommandRegistry.execute('window:fullscreen'));
+    ipcMain.on('close', () => CommandRegistry.execute('window:close'));
 }
 function setupIpcHandlers() {
     /*** AI Manager ***/
@@ -64,28 +95,6 @@ function setupIpcHandlers() {
             console.error('Error during compilation:', error);
         }
     });
-    /*** Tab Manager ***/
-    ipcMain.on('ADD_TAB', (event, extensionName) => {
-        if (!mainWindow)
-            return;
-        const extensionPath = getExtensionFilePath(extensionName);
-        const newTabId = createWebContentView(extensionPath, mainWindow);
-        switchToTab(newTabId, mainWindow);
-        event.reply('TAB_ADDED', newTabId);
-    });
-    ipcMain.on('CLOSE_TAB', (event, tabId) => {
-        if (!mainWindow)
-            return;
-        closeWebContentView(tabId, mainWindow);
-        event.reply('TAB_CLOSED', tabId);
-    });
-    ipcMain.on('SWITCH_TAB', (event, tabId) => {
-        if (!mainWindow)
-            return;
-        console.log('Switch Tab request for tabId:', tabId);
-        switchToTab(tabId, mainWindow);
-        event.reply('TAB_SWITCHED', tabId);
-    });
     /*** Database Operations ***/
     ipcMain.on('createTable', () => {
         console.log('Invoke Testing DB');
@@ -96,8 +105,7 @@ function setupIpcHandlers() {
     });
     ipcMain.handle('get-plugins', async () => {
         try {
-            const plugins = await getAllPlugins();
-            return plugins;
+            return await getAllPlugins();
         }
         catch (error) {
             console.error("Failed to fetch plugins:", error);
@@ -107,9 +115,8 @@ function setupIpcHandlers() {
     /*** Web Scrapping Section ***/
     ipcMain.handle('search-duck-duck-go', async (_event, query) => {
         try {
-            console.log("inside the search-duck-duck-go");
-            const searchResults = await searchDuckDuckGo(query);
-            return searchResults;
+            console.log("Inside search-duck-duck-go");
+            return await searchDuckDuckGo(query);
         }
         catch (error) {
             console.error("Error fetching search results:", error);
@@ -118,17 +125,31 @@ function setupIpcHandlers() {
     });
     /*** Testing Section ***/
     ipcMain.handle('testing-langchain', async (_event, query) => {
-        console.log("inside the testing-langchain");
+        console.log("Inside testing-langchain");
         try {
-            // const response = await chatLangchainAI(query);
-            // const response = await chatLangchainRAG(query,getAssetPath());
-            const response = await testingLangGraph(query);
-            return response;
+            return await testingLangGraph(query);
         }
         catch (error) {
-            console.error("Error fetching search results:", error);
-            throw new Error("Failed to fetch search results: " + error);
+            console.error("Error testing langchain:", error);
+            throw new Error("Failed to test langchain: " + error);
         }
+    });
+    // Tab-related IPC messages routed to CommandRegistry.
+    ipcMain.on('ADD_TAB', (event, extensionName) => {
+        console.log('ADD_TAB event received:', extensionName);
+        CommandRegistry.execute('tab:add', event, extensionName);
+    });
+    ipcMain.on('CLOSE_TAB', (event, tabId) => {
+        CommandRegistry.execute('tab:close', event, tabId);
+    });
+    ipcMain.on('SWITCH_TAB', (event, tabId) => {
+        CommandRegistry.execute('tab:switch', event, tabId);
+    });
+    // Generic command handler.
+    ipcMain.handle('command', async (event, command, args) => {
+        console.log("command:", command);
+        console.log("args:", args);
+        CommandRegistry.execute(command, event, args);
     });
 }
 app.whenReady().then(createWindow);

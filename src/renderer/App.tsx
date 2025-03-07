@@ -7,23 +7,26 @@ import Store from './components/store/Store';
 import Favourites from './components/favourites/Favourites';
 import Header from './components/header/Header';
 import { AiSpace } from './components/aispace/AiSpace';
+import { TabsProvider } from './components/utils/TabsContext';
 
 function App() {
   return (
-    <Router>
-      <Header></Header>
-      <div className='app-container'>
-        <SideNav />
-        <div className='content'>
-          <Routes>
-            <Route path='/aispace' element={<AiSpace />}/>
-            <Route path='/' element={<Favourites />} />
-            <Route path='/store' element={<Store />} />
-            <Route path='/settings' element={<Settings />} />
-          </Routes>
+    <TabsProvider>
+      <Router>
+        <Header />
+        <div className='app-container'>
+          <SideNav />
+          <div className='content'>
+            <Routes>
+              <Route path='/aispace' element={<AiSpace />} />
+              <Route path='/' element={<Favourites />} />
+              <Route path='/store' element={<Store />} />
+              <Route path='/settings' element={<Settings />} />
+            </Routes>
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
+    </TabsProvider>
   );
 }
 
