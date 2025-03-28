@@ -10,6 +10,7 @@ import { testingLangGraph } from './AiManager/TestingLangchain.js';
 import { CommandRegistry } from './core/CommandRegistry/CommandRegistry.js';
 import WindowService from './core/Services/WindowService.js';
 import AIChatManager from './AiManager/AiManager.js'; // Default import
+import { processFile } from './AiManager/DataProcessor.js';
 let mainWindow = null;
 function createWindow() {
     mainWindow = new BrowserWindow({
@@ -100,6 +101,12 @@ function registerCommands() {
     });
     CommandRegistry.register('ai:complete', async (event, prompt) => {
         return await AIChatManager.completePrompt(prompt);
+    });
+    // Process DataSet
+    CommandRegistry.register('ai:process-dataset', async (event, filePath) => {
+        console.log('Main filePath : ', filePath);
+        const result = await processFile(filePath);
+        return result;
     });
 }
 function setupWindowControls() {

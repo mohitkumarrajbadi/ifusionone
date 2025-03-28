@@ -32,50 +32,53 @@ export class AIChatManager {
     }
 
     this.initPromise = (async () => {
-      try {
-        const aiModelPath = getAIModelPath();
-        console.log("Initializing AI Model at:", aiModelPath);
+      // try {
+      //   const aiModelPath = getAIModelPath();
+      //   console.log("Initializing AI Model at:", aiModelPath);
 
-        const llama = await getLlama();
-        const model = await llama.loadModel({
-          modelPath: path.join(aiModelPath, "llama-3.2-3b-instruct.Q2_K.gguf"),
-          defaultContextFlashAttention: true,
-        });
-        const context = await model.createContext();
-        this.session = new LlamaChatSession({ contextSequence: context.getSequence() });
-        this.messageCount = 0;
-        console.log("AI model loaded successfully.");
-      } catch (error) {
-        const errMsg = error instanceof Error ? error.message : "Unknown error";
-        console.error("AI Initialization error:", errMsg);
-        throw new Error(`AI Initialization failed: ${errMsg}`);
-      }
-    })();
+      //   const llama = await getLlama();
+      //   const model = await llama.loadModel({
+      //     modelPath: path.join(aiModelPath, "llama-3.2-3b-instruct.Q2_K.gguf"),
+      //     defaultContextFlashAttention: true,
+      //   });
+      //   const context = await model.createContext();
+      //   this.session = new LlamaChatSession({ contextSequence: context.getSequence() });
+      //   this.messageCount = 0;
+      //   console.log("AI model loaded successfully.");
+      // } catch (error) {
+      //   const errMsg = error instanceof Error ? error.message : "Unknown error";
+      //   console.error("AI Initialization error:", errMsg);
+      //   throw new Error(`AI Initialization failed: ${errMsg}`);
+      // }
+    }
+  )
+    ();
 
     return this.initPromise;
   }
 
   // Sends a prompt to the AI model and returns the trimmed response.
   public async chat(prompt: string): Promise<string> {
-    if (!this.session) {
-      throw new Error("AI session not initialized. Call initialize() first.");
-    }
+    // if (!this.session) {
+    //   throw new Error("AI session not initialized. Call initialize() first.");
+    // }
 
-    // Increment and check the message count.
-    if (++this.messageCount > CONTEXT_THRESHOLD) {
-      console.log("Context threshold reached. Resetting AI session.");
-      await this.resetSession();
-    }
+    // // Increment and check the message count.
+    // if (++this.messageCount > CONTEXT_THRESHOLD) {
+    //   console.log("Context threshold reached. Resetting AI session.");
+    //   await this.resetSession();
+    // }
 
-    try {
-      const response = await this.session.prompt(prompt);
-      console.log (`AI Response: ${response}`);
-      return response.trim();
-    } catch (error) {
-      const errMsg = error instanceof Error ? error.message : "Unknown error";
-      console.error("AI Chat error:", errMsg);
-      return "Error processing request.";
-    }
+    // try {
+    //   const response = await this.session.prompt(prompt);
+    //   console.log (`AI Response: ${response}`);
+    //   return response.trim();
+    // } catch (error) {
+    //   const errMsg = error instanceof Error ? error.message : "Unknown error";
+    //   console.error("AI Chat error:", errMsg);
+    //   return "Error processing request.";
+    // }
+    return "Error processing request.";
   }
 
   // Resets the current session by summarizing the conversation and reinitializing.

@@ -11,6 +11,7 @@ import { testingLangGraph } from './AiManager/TestingLangchain.js';
 import { CommandRegistry } from './core/CommandRegistry/CommandRegistry.js';
 import WindowService from './core/Services/WindowService.js';
 import AIChatManager from './AiManager/AiManager.js';  // Default import
+import { processFile } from './AiManager/DataProcessor.js';
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -109,6 +110,13 @@ function registerCommands(): void {
   });
   CommandRegistry.register('ai:complete', async (event: IpcMainEvent, prompt: string) => {
     return await AIChatManager.completePrompt(prompt);
+  });
+
+  // Process DataSet
+  CommandRegistry.register('ai:process-dataset',async (event: IpcMainEvent, filePath: string)=>{
+    console.log('Main filePath : ', filePath)
+    const result = await processFile(filePath as any);
+    return result;
   });
 
 }
