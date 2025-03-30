@@ -1,114 +1,272 @@
+@import url('../../variables.css');
+
 /* ============================
-   🌟 AI-Space Container
+   🌌 AI-Space Container - Cosmic Edition
 =============================== */
 .ai-space {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  justify-content: flex-start;
-  align-items: stretch;
-  background: linear-gradient(135deg, var(--bg-color) 0%, #f0f0f5 100%);
-  gap: 12px;
   height: 100vh;
-  padding: 20px;
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  background: var(--bg-color);
+  gap: 20px;
+  padding: 24px;
+  box-shadow: inset 0 0 80px var(--content-shadow);
+  border-radius: var(--border-radius);
   overflow: hidden;
-  transition: all 0.3s ease-in-out;
+  transition: var(--transition);
+}
+
+/* Hover Animation */
+.ai-space:hover {
+  box-shadow: inset 0 0 100px var(--neon-glow);
+  transform: scale(1.01);
 }
 
 /* ============================
    🌟 Sidebar Styling
 =============================== */
-.ai-space > .sidebar {
-  width: 280px;
+.sidebar {
+  width: 180px;
   background: var(--side-nav-bg);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  border-radius: 12px;
-  padding: 20px;
-  transition: all 0.3s ease-in-out;
-}
-
-.ai-space > .sidebar:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-}
-
-/* Sidebar List Styling */
-.ai-space > .sidebar > ul {
+  backdrop-filter: blur(12px);
+  border-radius: var(--border-radius);
+  box-shadow: var(--content-shadow);
+  transition: var(--transition);
+  padding: 24px 18px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: flex-start;
+  color: var(--sidebar-text);
+  z-index: 10;
+  overflow-y: visible;
+}
+
+/* Sidebar List */
+.sidebar ul {
+  gap: 25px;
+  list-style: none;
   padding: 0;
   margin: 0;
-  list-style: none;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
-.ai-space > .sidebar > ul > li {
-  padding: 12px 18px;
-  border-radius: 8px;
-  background: linear-gradient(135deg, #d1e0ff, #b3d9ff);
-  color: #333;
-  font-weight: 600;
+.sidebar ul li {
+  padding: 5px 5px;
+  border-radius: calc(var(--border-radius) - 8px);
   font-size: 16px;
-  letter-spacing: 0.5px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  font-weight: 600;
+  color: var(--sidebar-text);
+  background: var(--tab-bg);
+  transition: var(--transition);
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
+  box-shadow: var(--content-shadow);
+  transform: translateX(0);
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: flex-start;
+  justify-content: center;
 }
 
-/* Hover & Active Effects */
-.ai-space > .sidebar > ul > li:hover {
-  background: var(--side-nav-hover-bg);
-  color: white;
-  transform: translateX(5px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+/* Sidebar Hover & Active Effects */
+.sidebar ul li:hover {
+  background: var(--sidebar-hover);
+  color: var(--star-blue);
+  transform: translateX(10px) scale(1.08);
+  box-shadow: var(--cosmic-glow);
 }
 
-.ai-space > .sidebar > ul > li.active {
-  background: #0078d4;  /* Vibrant Blue */
-  color: white;
-  box-shadow: 0 12px 24px rgba(0, 120, 212, 0.5);
-  transform: scale(1.05);
+.sidebar ul li.active {
+  background: var(--active-tab-bg);
+  color: var(--accent-1-light);
+  box-shadow: var(--deep-shadow);
+  transform: translateX(15px) scale(1.12);
+}
+
+/* Sidebar Icons */
+.sidebar ul li svg {
+  min-width: 28px;
+  min-height: 28px;
+  transition: var(--transition);
+}
+
+/* Sidebar Hover Icon */
+.sidebar ul li:hover svg {
+  transform: rotate(360deg) scale(1.25);
+}
+
+/* Sidebar Active Icon */
+.sidebar ul li.active svg {
+  color: var(--accent-3-light);
+  transform: rotate(45deg) scale(1.35);
 }
 
 /* ============================
-   🌟 Sidebar Icons
+   🌟 Main Content Styling
 =============================== */
-.ai-space > .sidebar > ul > li::before {
-  content: "🔹"; /* You can replace with actual icons */
-  font-size: 20px;
-  margin-right: 10px;
-  transition: all 0.3s ease;
+.ai-space-main-content {
+  flex: 1;
+  background: var(--content-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--content-shadow);
+  padding: 60px;
+  overflow-y: auto;
+  transition: var(--transition);
 }
 
-.ai-space > .sidebar > ul > li:hover::before {
-  content: "🚀"; 
-  color: #ffdd57; 
+/* Hover Effect */
+.ai-space-main-content:hover {
+  box-shadow: var(--deep-shadow);
+  transform: translateY(-5px);
 }
 
 /* ============================
-   🌟 Responsive Design
+   🌟 Scrollbar Styling
 =============================== */
+.ai-space-main-content::-webkit-scrollbar,
+.sidebar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.ai-space-main-content::-webkit-scrollbar-track,
+.sidebar::-webkit-scrollbar-track {
+  background: var(--tab-bg);
+  border-radius: 10px;
+}
+
+.ai-space-main-content::-webkit-scrollbar-thumb,
+.sidebar::-webkit-scrollbar-thumb {
+  background: var(--accent-3-light);
+  border-radius: 10px;
+  transition: var(--transition);
+}
+
+.ai-space-main-content::-webkit-scrollbar-thumb:hover,
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-1-light);
+}
+
+/* ============================
+   🌟 Dark Mode Support
+=============================== */
+body.dark-mode .ai-space {
+  background: var(--bg-color);
+  box-shadow: inset 0 0 100px var(--neon-glow-dark);
+}
+
+body.dark-mode .sidebar {
+  background: var(--side-nav-bg);
+  color: var(--sidebar-text);
+  box-shadow: var(--content-shadow-dark);
+}
+
+body.dark-mode .sidebar ul li {
+  background: var(--tab-bg);
+  color: var(--text-dark);
+}
+
+body.dark-mode .sidebar ul li:hover {
+  background: var(--sidebar-hover);
+  color: var(--nebula-purple);
+  box-shadow: var(--cosmic-glow-dark);
+}
+
+body.dark-mode .sidebar ul li.active {
+  background: var(--active-tab-bg);
+  color: var(--accent-2-dark);
+  box-shadow: 0 16px 48px var(--neon-glow-dark);
+}
+
+body.dark-mode .ai-space-main-content {
+  background: var(--content-bg);
+  color: var(--text-dark);
+  box-shadow: var(--deep-shadow);
+}
+
+/* ============================
+   🌠 Responsive Design
+=============================== */
+
+/* Large screens */
+@media (max-width: 1200px) {
+  .ai-space {
+    flex-direction: row;
+    padding: 16px;
+  }
+
+  .sidebar {
+    width: 240px;
+    min-width: 220px;
+    padding: 20px;
+  }
+
+  .ai-space-main-content {
+    padding: 40px;
+  }
+}
+
+/* Medium screens */
+@media (max-width: 992px) {
+  .ai-space {
+    flex-direction: row;
+    padding: 16px;
+  }
+
+  .sidebar {
+    width: 200px;
+    min-width: 180px;
+    padding: 20px;
+  }
+
+  .ai-space-main-content {
+    padding: 36px;
+  }
+}
+
+/* Small screens */
 @media (max-width: 768px) {
   .ai-space {
     flex-direction: column;
-    align-items: center;
-    padding: 10px;
+    padding: 16px;
   }
 
-  .ai-space > .sidebar {
+  .sidebar {
     width: 100%;
-    border-radius: 0;
-    box-shadow: none;
+    height: 220px;
+    border-radius: calc(var(--border-radius) - 6px);
+    box-shadow: var(--content-shadow);
+    padding: 20px;
   }
 
-  .ai-space > .sidebar > ul > li {
+  .ai-space-main-content {
+    padding: 30px;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 576px) {
+  .ai-space {
+    flex-direction: column;
+    padding: 12px;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 200px;
+    padding: 18px;
+    box-shadow: var(--deep-shadow);
+  }
+
+  .sidebar ul li {
     font-size: 14px;
-    padding: 10px 14px;
+    padding: 12px 18px;
+  }
+
+  .ai-space-main-content {
+    padding: 24px;
   }
 }

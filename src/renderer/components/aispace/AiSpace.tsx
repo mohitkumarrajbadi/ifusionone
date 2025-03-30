@@ -6,33 +6,30 @@ import FinetuneManager from "./sections/FinetuneManager";
 import Sidebar from "./Sidebar";
 import AiAgentManager from "./sections/AiAgentManager";
 
-
 export const AiSpace = () => {
-
-  const [activeSection,setActiveSection] = useState<string>("chat");
+  const [activeSection, setActiveSection] = useState<string>("chat");
 
   const renderSection = () => {
-    switch (activeSection){
+    switch (activeSection) {
       case "chat":
-        return <AiChatManager/>;
+        return <AiChatManager />;
       case "dataset-manager":
-        return <DatasetManager/>;
-      case "conversion": 
-        return <ConversionManager/>;
+        return <DatasetManager />;
+      case "conversion":
+        return <ConversionManager />;
       case "fine-tune":
-        return <FinetuneManager/>;
+        return <FinetuneManager />;
       case "agentic-framework":
-        return <AiAgentManager/>;
+        return <AiAgentManager />;
       default:
-        return <AiChatManager/>;
+        return <AiChatManager />;
     }
-  }
-
+  };
 
   return (
     <div className="ai-space">
-        <Sidebar setActiveSection={setActiveSection}/>
-        <div className="ai-space-main-content">{renderSection()}</div>
+      <Sidebar setActiveSection={setActiveSection} />
+      <div className="ai-space-main-content">{renderSection()}</div>
     </div>
   );
 };

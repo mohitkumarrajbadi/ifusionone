@@ -5,12 +5,12 @@ import { NavLink } from 'react-router-dom';
 
 const SideNav: React.FC = () => {
     return (
-        <nav className='side-nav'>
-            <ul className='side-nav-list'>
+        <nav className="side-nav">
+            <ul className="side-nav-list">
                 <li>
                     <NavLink
                         to="/aispace"
-                        activeClassName="active"
+                        className={({ isActive }) => isActive ? "active" : ""}
                     >
                         <FaAtom />
                         <span>AI Space</span>
@@ -19,8 +19,8 @@ const SideNav: React.FC = () => {
                 <li>
                     <NavLink
                         to="/"
-                        activeClassName="active"
-                        exact
+                        className={({ isActive }) => isActive ? "active" : ""}
+                        end
                     >
                         <FaStar />
                         <span>Favourites</span>
@@ -29,7 +29,7 @@ const SideNav: React.FC = () => {
                 <li>
                     <NavLink
                         to="/store"
-                        activeClassName="active"
+                        className={({ isActive }) => isActive ? "active" : ""}
                     >
                         <FaStore />
                         <span>Fusion Space</span>
@@ -38,7 +38,7 @@ const SideNav: React.FC = () => {
                 <li>
                     <NavLink
                         to="/settings"
-                        activeClassName="active"
+                        className={({ isActive }) => isActive ? "active" : ""}
                     >
                         <FaGear />
                         <span>Settings</span>

@@ -14,6 +14,9 @@ dist-electron
 dist-renderer
 *.local
 src/aimodels/*
+src/python-ai-hub/__pycache__
+src/python-ai-hub/build
+src/python-ai-hub/dist
 
 # Editor directories and files
 .vscode/*

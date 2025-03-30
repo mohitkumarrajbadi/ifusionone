@@ -11,16 +11,22 @@ import { CommandRegistry } from './core/CommandRegistry/CommandRegistry.js';
 import WindowService from './core/Services/WindowService.js';
 import AIChatManager from './AiManager/AiManager.js'; // Default import
 import { processFile } from './AiManager/DataProcessor.js';
+import { testBackendConnection } from './AiPythonBackendManager/AiPythonBackendManager.js';
+let backendProcess = null;
 let mainWindow = null;
 function createWindow() {
-    mainWindow = new BrowserWindow({
-        transparent: true,
-        frame: false,
+    const mainWindow = new BrowserWindow({
+        width: 1400,
+        height: 900,
+        transparent: true, // ✅ Transparent background
+        frame: false, // ✅ Frameless window
+        fullscreenable: true, // ✅ Allow fullscreen
+        autoHideMenuBar: true, // ✅ Hide menu bar
         webPreferences: {
             preload: getPreloadPath(),
             contextIsolation: true,
             nodeIntegration: false,
-        },
+        }
     });
     if (isDev()) {
         mainWindow.loadURL('http://localhost:5123');
@@ -32,6 +38,7 @@ function createWindow() {
     WindowService.setMainWindow(mainWindow);
     // Register window, tab, and AI commands.
     registerCommands();
+    startBackend(); // Start Python backend on app launch
     // Setup IPC handlers.
     setupWindowControls();
     setupIpcHandlers();
@@ -108,6 +115,15 @@ function registerCommands() {
         const result = await processFile(filePath);
         return result;
     });
+    // Ai Backend Python Testing
+    CommandRegistry.register('ai:test-python-backend', async (event, filePath) => {
+        console.log('Main.ts Testing python backedn');
+        const result = '';
+        testBackendConnection()
+            .then((data) => console.log("Backend Response:", data))
+            .catch((error) => console.error("Backend Error:", error));
+        return result;
+    });
 }
 function setupWindowControls() {
     ipcMain.on('minimize', () => CommandRegistry.execute('window:minimize'));
@@ -176,6 +192,37 @@ function setupIpcHandlers() {
         console.log("Command response:", responseCommand);
         return responseCommand;
     });
+}
+// Start the Python backend
+function startBackend() {
+    // try {
+    //   const backendPath: string = getAiBackEndExecutableFile();
+    //   const interpreter: string = os.platform() === "win32" ? "python" : "python3";
+    //   console.log(`🚀 Starting Python backend: ${interpreter} -m uvicorn server:app --reload`);
+    //   // Spawn the backend process
+    //   backendProcess = spawn(interpreter, ["-m", "uvicorn", "server:app", "--reload"], {
+    //     cwd: path.dirname(backendPath),  // Ensure the working directory is correct
+    //     detached: true,                   // Run process independently
+    //     stdio: "inherit",                  // Display backend logs in Electron console
+    //   });
+    //   // Handle backend process events
+    //   backendProcess.on("close", (code: number) => {
+    //     console.log(`🔚 Backend exited with code ${code}`);
+    //     backendProcess = null;
+    //   });
+    //   backendProcess.on("error", (err: Error) => {
+    //     console.error(`🔥 Backend Execution Error: ${err.message}`);
+    //   });
+    // } catch (error) {
+    //   console.error("❌ Failed to start backend:", error);
+    // }
+}
+function stopBackend() {
+    if (backendProcess) {
+        console.log("🛑 Stopping backend process...");
+        backendProcess.kill();
+        backendProcess = null;
+    }
 }
 app.whenReady().then(createWindow);
 app.on('window-all-closed', () => {

@@ -19,3 +19,6 @@ export function getCompilerFilePath() {
 export function getExtensionFilePath(extensionName) {
     return path.join(app.getAppPath(), isDev() ? '.' : '..', `src/plugins/${extensionName}/index.html`);
 }
+export function getAiBackEndExecutableFile() {
+    return path.join(app.getAppPath(), isDev() ? '.' : '..', 'src/python-ai-hub/dist/ai-backend');
+}

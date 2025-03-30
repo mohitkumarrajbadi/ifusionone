@@ -41,8 +41,9 @@ const DatasetManager: React.FC = () => {
 
         try {
             const isElectron = !!(window && (window as any).electron);
-            
+
             if (isElectron && (file as any).path) {
+                // For Electron, use file path
                 const filePath = (file as any).path;
 
                 const result: DatasetInfo = await (window as any).electron.invokeCommand(
@@ -51,8 +52,11 @@ const DatasetManager: React.FC = () => {
                 );
 
                 setFileInfo(result);
+
             } else {
+                // For Web, read file content
                 const reader = new FileReader();
+                
                 reader.onload = async (event) => {
                     const content = event.target?.result as string;
 
@@ -72,6 +76,7 @@ const DatasetManager: React.FC = () => {
                 reader.onerror = () => {
                     setError('Error reading file.');
                 };
+
                 reader.readAsText(file);
             }
         } catch (err: any) {
@@ -84,12 +89,15 @@ const DatasetManager: React.FC = () => {
 
     return (
         <div style={{ padding: '20px' }}>
-            <h1>Upload Dataset</h1>
-            <input 
-                type="file" 
-                onChange={handleFileChange} 
-                accept=".csv,.json,.jsonl,.txt" 
+            <h1>📁 Upload Dataset</h1>
+            
+            <input
+                type="file"
+                onChange={handleFileChange}
+                accept=".csv,.json,.jsonl,.txt"
+                style={{ marginBottom: '10px' }}
             />
+            
             <button onClick={handleUpload} disabled={loading} style={{ marginLeft: '10px' }}>
                 {loading ? 'Uploading...' : 'Upload and Analyze'}
             </button>
@@ -99,26 +107,54 @@ const DatasetManager: React.FC = () => {
 
             {fileInfo && (
                 <>
-                    <div style={{ background: '#f4f4f4', padding: '20px', margin: '20px 0', borderRadius: '8px' }}>
-                        <h2>Dataset Info:</h2>
-                        <pre>Shape: {JSON.stringify(fileInfo.shape, null, 2)}</pre>
-                        <pre>Columns: {JSON.stringify(fileInfo.columns, null, 2)}</pre>
-                        <pre>Memory Usage: {fileInfo.memoryUsage}</pre>
-                        <pre>Duplicates: {fileInfo.duplicates}</pre>
-                        <pre>Constant Columns: {JSON.stringify(fileInfo.constantCols)}</pre>
-                        <pre>Outliers: {JSON.stringify(fileInfo.outliers)}</pre>
+                    {/* Dataset Information Section */}
+                    <div style={{ marginTop: '20px' }}>
+                        <h2>📊 Dataset Info</h2>
 
-                        <h3>Basic Stats:</h3>
-                        {Object.keys(fileInfo.basicStats).map((col) => (
-                            <div key={col}>
-                                <h4>{col}</h4>
-                                <pre>{JSON.stringify(fileInfo.basicStats[col], null, 2)}</pre>
+                        <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                            <div>
+                                <strong>🔹 Shape:</strong> {JSON.stringify(fileInfo.shape)}
                             </div>
-                        ))}
+                            <div>
+                                <strong>🔹 Columns:</strong> {fileInfo.columns.join(', ')}
+                            </div>
+                            <div>
+                                <strong>🔹 Memory Usage:</strong> {fileInfo.memoryUsage}
+                            </div>
+                            <div>
+                                <strong>🔹 Duplicates:</strong> {fileInfo.duplicates}
+                            </div>
+                            <div>
+                                <strong>🔹 Constant Columns:</strong> {fileInfo.constantCols.join(', ') || 'None'}
+                            </div>
+                        </div>
+
+                        <h3>📈 Basic Stats</h3>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
+                            {Object.keys(fileInfo.basicStats).map((col) => (
+                                <div key={col} style={{ border: '1px solid #ccc', padding: '10px', borderRadius: '8px' }}>
+                                    <h4>{col}</h4>
+                                    <pre>{JSON.stringify(fileInfo.basicStats[col], null, 2)}</pre>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
-                    <div className="chart-container">
-                        <DatasetVisualizer data={fileInfo} />
+                    {/* Dataset Visualization */}
+                    <div className="chart-container" style={{ marginTop: '30px' }}>
+                        <h2>📊 Visualization</h2>
+                        <DatasetVisualizer 
+                            data={fileInfo} 
+                            config={{
+                                chartType: "bar", 
+                                colors: ["#FF5733", "#33FF57", "#3357FF"], 
+                                xAxisKey: "label",
+                                yAxisKey: "data",
+                                customXAxisLabel: "X-Axis",
+                                customYAxisLabel: "Y-Axis",
+                                showGrid: true
+                            }}
+                        />
                     </div>
                 </>
             )}

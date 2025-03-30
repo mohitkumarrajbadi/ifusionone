@@ -1,99 +1,182 @@
-  /* Overall side navigation container */
+
+@import url('../../App.css');
+
+@import url('../../variables.css');
+
+
+/* ============================
+   🌌 Side Navigation - Cosmic Edition
+=============================== */
+
+.side-nav {
+  width: 260px;
+  background: var(--side-nav-bg); 
+  color: var(--sidebar-text);
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  box-shadow: var(--content-shadow);
+  border-right: 1px solid var(--border-color);
+  transition: var(--transition);
+  overflow: hidden;
+}
+
+/* Navigation List */
+.side-nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex-grow: 1;
+}
+
+/* Navigation Items */
+.side-nav-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  margin: 12px 0;
+}
+
+/* Navigation Links */
+.side-nav-list li a {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 20px;
+  width: 100%;
+  text-decoration: none;
+  color: var(--sidebar-text);
+  background: var(--side-nav-bg);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover Effects */
+.side-nav-list li a:hover {
+  background: var(--sidebar-hover);
+  color: var(--star-blue);
+  transform: translateX(8px) scale(1.05);
+  box-shadow: 0 8px 24px var(--cosmic-glow);
+}
+
+/* Active Link */
+.side-nav-list li a.active {
+  background: var(--active-tab-bg);
+  color: var(--tab-indicator);
+  transform: translateX(12px) scale(1.08);
+  box-shadow: 0 12px 36px var(--neon-glow);
+}
+
+/* Icon Styling */
+.side-nav-list li a svg {
+  min-width: 24px;
+  min-height: 24px;
+  transition: var(--transition);
+}
+
+/* Icon Hover Effect */
+.side-nav-list li a:hover svg {
+  transform: rotate(360deg) scale(1.2);
+}
+
+/* Active Icon Effect */
+.side-nav-list li a.active svg {
+  color: var(--accent-1-light);
+  transform: rotate(45deg) scale(1.3);
+}
+
+/* ============================
+   🌟 Dark Mode Support
+=============================== */
+body.dark-mode .side-nav {
+  background: var(--side-nav-bg);
+  color: var(--sidebar-text);
+  box-shadow: var(--content-shadow-dark);
+}
+
+body.dark-mode .side-nav-list li a {
+  background: var(--tab-bg);
+  color: var(--text-dark);
+  box-shadow: var(--content-shadow-dark);
+}
+
+body.dark-mode .side-nav-list li a:hover {
+  background: var(--sidebar-hover);
+  color: var(--nebula-purple);
+  box-shadow: 0 12px 40px var(--cosmic-glow-dark);
+}
+
+body.dark-mode .side-nav-list li a.active {
+  background: var(--active-tab-bg);
+  color: var(--accent-2-dark);
+  box-shadow: 0 16px 48px var(--neon-glow-dark);
+}
+
+/* ============================
+   🌠 Scrollbar Styling
+=============================== */
+.side-nav::-webkit-scrollbar {
+  width: 10px;
+}
+
+.side-nav::-webkit-scrollbar-track {
+  background: var(--tab-bg);
+  border-radius: 10px;
+}
+
+.side-nav::-webkit-scrollbar-thumb {
+  background: var(--accent-3-light); 
+  border-radius: 10px;
+  transition: var(--transition);
+}
+
+.side-nav::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-1-light); 
+}
+
+/* ============================
+   🌟 Responsive Design
+=============================== */
+@media (max-width: 1200px) {
   .side-nav {
-    font-weight: 600;
-    width: 260px;
-    background: var(--side-nav-bg);
-    backdrop-filter: blur(15px);
-    color: var(--side-nav-text);
-    display: flex;
-    flex-direction: column;
-    padding-top: 20px;
-    box-shadow: var(--side-nav-shadow);
-    border-right: 1px solid var(--side-nav-border);
-    transition: width 0.3s ease, box-shadow 0.3s ease;
+    width: 220px;
   }
   
-  /* Navigation list */
-  .side-nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex-grow: 1;
-  }
-  
-  /* Navigation items */
-  .side-nav-list li {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    border-radius: var(--border-radius);
-    transition: transform 0.2s ease, background 0.2s ease-in-out;
-    margin: 4px 0;
-  }
-  
-  /* Navigation links */
   .side-nav-list li a {
-    display: flex;
-    text-decoration: none;
-    color: inherit;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 16px;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .side-nav {
+    width: 180px;
+  }
+  
+  .side-nav-list li a {
+    padding: 10px 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .side-nav {
     width: 100%;
-    border-radius: var(--border-radius);
-    transition: background 0.2s ease, color 0.2s ease;
+    height: auto;
+    flex-direction: row;
+    box-shadow: none;
   }
   
-  /* Icon styling */
-  .side-nav-list li svg {
-    min-width: 24px;
-    min-height: 24px;
-    color: var(--side-nav-text);
-    transition: color 0.2s ease;
+  .side-nav-list {
+    display: flex;
+    justify-content: space-around;
   }
   
-  /* Active state */
-  .side-nav-list li a.active {
-    background: rgba(5, 132, 255, 0.20); 
-    color: var(--active-tab-indicator);                   
+  .side-nav-list li a {
+    padding: 10px;
+    font-size: 14px;
   }
-  
-  /* Hover effects */
-  .side-nav-list li a:hover {
-    background: var(--side-nav-hover-bg);
-  }
-  
-  .side-nav-list li a:hover svg {
-    color: var(--active-tab-indicator);
-  }
-  
-  /* Responsive adjustments */
-  /* Medium Screens (1024px and below) */
-  @media (max-width: 1024px) {
-    .side-nav {
-      width: 220px;
-      padding-top: 20px;
-    }
-  
-    .side-nav-list li {
-      font-size: 1rem;
-      padding: 10px 18px;
-    }
-  }
-  
-  /* Small Screens (768px and below) */
-  @media (max-width: 768px) {
-    .side-nav {
-      width: 180px;
-      padding-top: 15px;
-    }
-  
-    .side-nav-list li {
-      font-size: 0.9rem;
-      padding: 8px 15px;
-    }
-  }
-  
+}

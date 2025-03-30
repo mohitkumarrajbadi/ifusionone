@@ -1,0 +1,172 @@
+/* ============================
+   🌟 Core Variables - Cosmic Edition (Improved)
+=============================== */
+
+:root {
+    /* Transitions & Fonts */
+    --transition: all 0.4s ease-in-out;
+    --border-radius: 18px;
+    --font-family: 'Inter', sans-serif;
+    --animation-duration: 0.4s;
+
+    /* === Light & Dark Mode Colors === */
+    --bg-light: #f5f5f7;                      /* Light background */
+    --bg-dark: #0c0c0d;                       /* Dark cosmic background */
+
+    --text-light: #1c1c1e;                    /* Light text */
+    --text-dark: #e5e5ea;                     /* Dark text */
+
+    --header-light: #ffffff;                   /* White header */
+    --header-dark: #1c1c1e;                    /* Dark header */
+
+    --side-nav-light: #ffffff;                 /* Light sidebar */
+    --side-nav-dark: #1a1a1d;                  /* Dark sidebar */
+
+    --sidebar-text-light: #333333;             /* Sidebar text in light mode */
+    --sidebar-text-dark: #f8f8f8;              /* Sidebar text in dark mode */
+
+    --sidebar-hover-light: #f0f0f0;            /* Light hover effect */
+    --sidebar-hover-dark: #292929;             /* Dark hover effect */
+
+    --content-light: #ffffff;                  /* Light content */
+    --content-dark: #1a1a1e;                   /* Dark content */
+
+    --border-light: rgba(0, 0, 0, 0.1);        /* Softer light border */
+    --border-dark: rgba(255, 255, 255, 0.1);   /* Dark border */
+
+    --accent-1-light: #ff6b6b;                 /* Fiery red */
+    --accent-1-dark: #ff4c4c;
+
+    --accent-2-light: #ffd93d;                 /* Bright yellow */
+    --accent-2-dark: #ffc107;
+
+    --accent-3-light: #33d9b2;                 /* Aqua green */
+    --accent-3-dark: #2ab7a9;
+
+    --accent-4-light: #a29bfe;                 /* Soft lavender */
+    --accent-4-dark: #7b61ff;
+
+    --star-blue: #1e90ff;                      /* Stellar blue */
+    --nebula-purple: #6a0dad;                  /* Deep cosmic purple */
+    --comet-white: #f8f8ff;                    /* White comet */
+
+    /* === Shadows & Glow === */
+    --content-shadow-light: 0 12px 40px rgba(0, 0, 0, 0.08);  /* Softer shadow */
+    --content-shadow-dark: 0 15px 40px rgba(0, 0, 0, 0.7);    /* Darker shadow */
+
+    --neon-glow-light: 0 0 18px rgba(10, 132, 255, 0.15);  
+    --neon-glow-dark: 0 0 30px rgba(240, 240, 240, 0.5);
+
+    --cosmic-glow-light: 0 0 18px rgba(147, 51, 234, 0.15);  
+    --cosmic-glow-dark: 0 0 30px rgba(200, 200, 255, 0.8);
+
+    /* === Tabs & Buttons === */
+    --tab-light: #f0f0f0;                      /* Light tab */
+    --tab-dark: #2c2c2e;                       /* Dark tab */
+
+    --tab-hover-light: #dcdcdc;                /* Light tab hover */
+    --tab-hover-dark: #3a3a3c;                 /* Dark tab hover */
+
+    --active-tab-light: #fefefe;               /* Active tab light */
+    --active-tab-dark: #1c1c1e;                /* Active tab dark */
+
+    --tab-indicator-light: var(--star-blue);   /* Tab indicator light */
+    --tab-indicator-dark: #0a84ff;             /* Tab indicator dark */
+
+    --add-tab-color-light: var(--nebula-purple);
+    --add-tab-color-dark: #ff6b6b;
+
+    /* === Buttons & Inputs === */
+    --btn-bg-light: var(--star-blue);
+    --btn-bg-dark: var(--nebula-purple);
+    
+    --btn-hover-light: var(--accent-3-light);
+    --btn-hover-dark: var(--accent-3-dark);
+
+    --input-bg-light: #ffffff;
+    --input-bg-dark: #2c2c2e;
+
+    --input-border-light: rgba(0, 0, 0, 0.1);
+    --input-border-dark: rgba(255, 255, 255, 0.1);
+}
+
+/* ============================
+   🌞 Light Mode - Cosmic Edition
+=============================== */
+body {
+    background: var(--bg-light);
+    color: var(--text-light);
+    font-family: var(--font-family);
+    transition: var(--transition);
+}
+
+body {
+    --bg-color: var(--bg-light);
+    --text-color: var(--text-light);
+    --header-bg: var(--header-light);
+    --side-nav-bg: var(--side-nav-light);
+    --sidebar-text: var(--sidebar-text-light);
+    --sidebar-hover: var(--sidebar-hover-light);
+    --content-bg: var(--content-light);
+    --border-color: var(--border-light);
+    --content-shadow: var(--content-shadow-light);
+    --neon-glow: var(--neon-glow-light);
+    --cosmic-glow: var(--cosmic-glow-light);
+    --tab-bg: var(--tab-light);
+    --tab-hover-bg: var(--tab-hover-light);
+    --active-tab-bg: var(--active-tab-light);
+    --tab-indicator: var(--tab-indicator-light);
+    --add-tab-color: var(--add-tab-color-light);
+}
+
+/* ============================
+   🌑 Dark Mode - Cosmic Edition
+=============================== */
+body.dark-mode {
+    background: var(--bg-dark);
+    color: var(--text-dark);
+    --bg-color: var(--bg-dark);
+    --text-color: var(--text-dark);
+    --header-bg: var(--header-dark);
+    --side-nav-bg: var(--side-nav-dark);
+    --sidebar-text: var(--sidebar-text-dark);
+    --sidebar-hover: var(--sidebar-hover-dark);
+    --content-bg: var(--content-dark);
+    --border-color: var(--border-dark);
+    --content-shadow: var(--content-shadow-dark);
+    --neon-glow: var(--neon-glow-dark);
+    --cosmic-glow: var(--cosmic-glow-dark);
+    --tab-bg: var(--tab-dark);
+    --tab-hover-bg: var(--tab-hover-dark);
+    --active-tab-bg: var(--active-tab-dark);
+    --tab-indicator: var(--tab-indicator-dark);
+    --add-tab-color: var(--add-tab-color-dark);
+}
+
+/* ============================
+   🌟 Transitions & Animations
+=============================== */
+a, button, input, textarea {
+    transition: var(--transition);
+}
+
+/* Smooth hover effects */
+a:hover, button:hover, input:hover, textarea:hover {
+    box-shadow: var(--neon-glow);
+}
+
+/* Interactive Tabs */
+.tab {
+    background: var(--tab-bg);
+    transition: var(--transition);
+}
+
+.tab:hover {
+    background: var(--tab-hover-bg);
+    box-shadow: var(--cosmic-glow);
+}
+
+.tab.active {
+    background: var(--active-tab-bg);
+    border-bottom: 3px solid var(--tab-indicator);
+}

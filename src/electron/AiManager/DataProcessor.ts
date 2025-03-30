@@ -9,6 +9,8 @@ interface FileParams {
 export interface DatasetInfo {
   shape: number[];
   columns: string[];
+  head: any[];                // First few rows as a preview
+  summary: Record<string, any>;  // Summary statistics for each column
   memoryUsage: string;
   missingValues: Record<string, number>;
   cardinality: Record<string, number>;
@@ -23,36 +25,28 @@ export interface DatasetInfo {
 }
 
 /**
- * ✅ Sanitize the object to prevent serialization issues
- * - Converts NaN, Infinity to null
- * - Replaces function references with actual values
+ * Sanitize an object for IPC communication:
+ * - Replace NaN/Infinity with null.
+ * - Convert functions to their return values if possible.
  */
 function sanitizeForIPC(obj: any): any {
-  if (typeof obj !== 'object' || obj === null) {
-    return obj;
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map((item) => sanitizeForIPC(item));
-  }
-
+  if (typeof obj !== 'object' || obj === null) return obj;
+  if (Array.isArray(obj)) return obj.map(sanitizeForIPC);
+  
   const sanitized: Record<string, any> = {};
   for (const key in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, key)) {
       const value = obj[key];
-
       if (typeof value === 'function') {
-        // ✅ Extract the mode values from the function reference
         try {
           sanitized[key] = value().values ?? null;
         } catch {
           sanitized[key] = null;
         }
       } else if (typeof value === 'number') {
-        // ✅ Replace Infinity or NaN with null
         sanitized[key] = isFinite(value) ? value : null;
       } else if (typeof value === 'bigint') {
-        sanitized[key] = value.toString();  // Convert BigInt to string
+        sanitized[key] = value.toString();
       } else if (typeof value === 'object' && value !== null) {
         sanitized[key] = sanitizeForIPC(value);
       } else {
@@ -60,56 +54,56 @@ function sanitizeForIPC(obj: any): any {
       }
     }
   }
-
   return sanitized;
 }
 
 /**
- * ✅ Manually calculates the quantile
+ * Calculates the quantile for an array of numbers.
  */
 function calculateQuantile(values: number[], quantile: number): number {
+  if (values.length === 0) return NaN;
   const sorted = [...values].sort((a, b) => a - b);
   const index = quantile * (sorted.length - 1);
   const lower = Math.floor(index);
   const upper = Math.ceil(index);
-
-  if (lower === upper) {
-    return sorted[lower];
-  }
-
+  if (lower === upper) return sorted[lower];
   const weight = index - lower;
   return sorted[lower] * (1 - weight) + sorted[upper] * weight;
 }
 
 /**
- * ✅ Outlier detection using manual IQR calculation
+ * Detects outliers using the IQR method on a numeric Series.
  */
 function detectOutliers(series: dfd.Series): number {
-  const values = series.values.map(Number).filter((v) => !isNaN(v));
-
+  const values = series.values.map((v: any) => parseFloat(v)).filter((v: number) => !isNaN(v));
   if (values.length === 0) return 0;
-
   const q1 = calculateQuantile(values, 0.25);
   const q3 = calculateQuantile(values, 0.75);
   const iqr = q3 - q1;
   const lowerBound = q1 - 1.5 * iqr;
   const upperBound = q3 + 1.5 * iqr;
-
   return values.filter((v) => v < lowerBound || v > upperBound).length;
 }
 
 /**
- * ✅ Removes duplicates manually.
+ * Removes duplicate rows from a DataFrame.
  */
 function removeDuplicates(df: dfd.DataFrame): dfd.DataFrame {
-  const combined = df.columns.map((col) => df[col].values.map((v) => JSON.stringify(v))).flat();
-  const uniqueSet = new Set(combined);
-  const uniqueData = Array.from(uniqueSet).map((row) => JSON.parse(row));
-  return new dfd.DataFrame(uniqueData);
+  const rowSet = new Set<string>();
+  const uniqueRows: any[][] = [];
+  for (let i = 0; i < df.shape[0]; i++) {
+    const row = df.iloc({ rows: [i] }).values[0];
+    const rowStr = JSON.stringify(row);
+    if (!rowSet.has(rowStr)) {
+      rowSet.add(rowStr);
+      uniqueRows.push(row);
+    }
+  }
+  return new dfd.DataFrame(uniqueRows, { columns: df.columns });
 }
 
 /**
- * ✅ Processes the file and generates dataset information.
+ * Processes the file and generates extensive dataset information.
  */
 export async function processFile(params: FileParams): Promise<DatasetInfo> {
   try {
@@ -121,7 +115,6 @@ export async function processFile(params: FileParams): Promise<DatasetInfo> {
     if (isContent) {
       const content: string = typeof filePath === 'string' ? filePath.trim() : '';
       if (!content) throw new Error("Content is empty or invalid.");
-
       if (content.startsWith('{') || content.startsWith('[')) {
         const jsonData = JSON.parse(content);
         df = new dfd.DataFrame(Array.isArray(jsonData) ? jsonData : [jsonData]);
@@ -157,17 +150,45 @@ export async function processFile(params: FileParams): Promise<DatasetInfo> {
       throw new Error("No valid data found in the file.");
     }
 
+    // Duplicate Removal and Count
     const cleanedDf = removeDuplicates(df);
     const duplicates = df.shape[0] - cleanedDf.shape[0];
 
-    const basicStats: Record<string, any> = {};
+    // Calculate Missing Values for Each Column
+    const missingValues: Record<string, number> = {};
+    df.columns.forEach((col: string) => {
+      const series = df[col] as dfd.Series;
+      missingValues[col] = (series.isNa() as any).sum();
+    });
+
+    // Cardinality for Each Column
+    const cardinality: Record<string, number> = {};
+    df.columns.forEach((col: string) => {
+      const series = df[col] as dfd.Series;
+      cardinality[col] = (series.unique() as any).values.length;
+    });
+
+    // Identify Constant Columns (only one unique value)
+    const constantCols: string[] = df.columns.filter((col: string) => {
+      const series = df[col] as dfd.Series;
+      return (series.unique() as any).values.length === 1;
+    });
+
+    // Outlier detection for numeric columns
+    const outliers: Record<string, number> = {};
     const numericCols = df.columns.filter((col: string) => {
       const dtype = (df[col] as any).dtype as string;
       return dtype === 'float32' || dtype === 'int32';
     });
-
     numericCols.forEach((col: string) => {
-      const series = df[col];
+      const series = df[col] as dfd.Series;
+      outliers[col] = detectOutliers(series);
+    });
+
+    // Basic statistics for numeric columns
+    const basicStats: Record<string, any> = {};
+    numericCols.forEach((col: string) => {
+      const series = df[col] as dfd.Series;
       basicStats[col] = {
         mean: isFinite(series.mean()) ? series.mean() : null,
         median: series.median(),
@@ -180,34 +201,43 @@ export async function processFile(params: FileParams): Promise<DatasetInfo> {
       };
     });
 
+    // Extract sample rows (head)
+    const head = df.head(5).values;
+
+    // Chart data for visualization (example: histogram and scatter)
     const chartData = {
       histogram: numericCols.map((col: string) => ({
         label: col,
-        data: df[col].values,
+        data: (df[col] as dfd.Series).values,
       })),
       scatter: numericCols.length >= 2
-        ? [{ x: df[numericCols[0]].values, y: df[numericCols[1]].values }]
+        ? [{
+            x: (df[numericCols[0]] as dfd.Series).values,
+            y: (df[numericCols[1]] as dfd.Series).values,
+          }]
         : [],
     };
 
+    // Compile all information into DatasetInfo
     const info: DatasetInfo = sanitizeForIPC({
       shape: df.shape,
       columns: df.columns,
+      head, // first 5 rows of data
+      summary: df.describe().toString(), // basic description as a string
       memoryUsage: `${(df.size * 8 / (1024 * 1024)).toFixed(2)} MB`,
-      missingValues: {},
-      cardinality: {},
+      missingValues,
+      cardinality,
       duplicates,
-      constantCols: [],
-      outliers: {},
+      constantCols,
+      outliers,
       basicStats,
       chartData,
     });
 
-    console.log(`✅ Data processed successfully:`, info);
+    console.log("✅ Data processed successfully ");
     return info;
-
   } catch (error) {
-    console.error(`❌ Error in data processing:`, error);
+    console.error("❌ Error in data processing:", error);
     throw error;
   }
 }

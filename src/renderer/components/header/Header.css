@@ -1,159 +1,263 @@
-  /* Overall Header Container */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: var(--header-bg);
-    height: 40px;
-    padding: 0 10px;
-    color: var(--header-text);
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    -webkit-app-region: drag;
-    gap: 20px;
-    transition: var(--transition);
+@import url('../../variables.css');
+
+/* ==================== */
+/*     Header Styles     */
+/* ==================== */
+
+/* Overall Header Container */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--header-bg);
+  height: 60px;
+  padding: 0 28px;
+  color: var(--text-color);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+  -webkit-app-region: drag;
+  gap: 20px;
+  transition: var(--transition);
+  box-shadow: 0 10px 28px var(--content-shadow);
+  backdrop-filter: blur(16px); /* Glassmorphism effect */
+}
+
+/* ============ */
+/* Window Controls (Non-Draggable) */
+/* ============ */
+.header-left {
+  display: flex;
+  align-items: center;
+  -webkit-app-region: no-drag;
+}
+
+.header-controls {
+  display: flex;
+  gap: 14px;
+}
+
+/* Window Control Buttons */
+.header-button {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Apple-Inspired Colors with Glow Effects */
+.close-btn {
+  background-color: var(--accent-1-light);
+  box-shadow: 0 0 8px var(--accent-1-light);
+}
+
+.close-btn:hover {
+  background-color: var(--accent-1-dark);
+  box-shadow: 0 0 14px var(--accent-1-dark);
+  transform: scale(1.15);
+}
+
+.minimize-btn {
+  background-color: var(--accent-2-light);
+  box-shadow: 0 0 8px var(--accent-2-light);
+}
+
+.minimize-btn:hover {
+  background-color: var(--accent-2-dark);
+  box-shadow: 0 0 14px var(--accent-2-dark);
+  transform: scale(1.15);
+}
+
+.maximize-btn {
+  background-color: var(--accent-3-light);
+  box-shadow: 0 0 8px var(--accent-3-light);
+}
+
+.maximize-btn:hover {
+  background-color: var(--accent-3-dark);
+  box-shadow: 0 0 14px var(--accent-3-dark);
+  transform: scale(1.15);
+}
+
+/* ============ */
+/* Center Section: Tab Bar & Title */
+/* ============ */
+.header-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-app-region: drag;
+  pointer-events: none;
+}
+
+/* Tab Navigation */
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+  -webkit-app-region: no-drag;
+  transition: var(--transition);
+}
+
+/* Individual Tab */
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--tab-bg);
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+  cursor: pointer;
+  user-select: none;
+  transition: var(--transition);
+  box-shadow: 0 6px 18px var(--content-shadow);
+}
+
+/* Tab Hover Effect */
+.tab:hover {
+  background: var(--tab-hover-bg);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px var(--neon-glow);
+}
+
+/* Active Tab */
+.tab.active {
+  background: var(--active-tab-bg);
+  box-shadow: inset 0 -4px 0 0 var(--tab-indicator);
+  font-weight: bold;
+  color: var(--star-blue);
+}
+
+/* Tab Title */
+.tab-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-right: 12px;
+  transition: color 0.3s ease;
+}
+
+/* Tab Close Button */
+.tab-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  padding: 0;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+/* Close Button Hover Effect */
+.tab-close-btn:hover {
+  color: var(--accent-1-light);
+  transform: scale(1.25);
+}
+
+/* Add Tab Button */
+.add-tab-btn {
+  background: var(--btn-bg-light);
+  border: none;
+  color: var(--comet-white);
+  cursor: pointer;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: var(--transition);
+  box-shadow: 0 6px 18px var(--content-shadow);
+}
+
+/* Add Tab Hover */
+.add-tab-btn:hover {
+  background: var(--btn-hover-light);
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 0 14px 30px var(--neon-glow);
+}
+
+/* ============ */
+/* Right Section (Non-Draggable) */
+/* ============ */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  -webkit-app-region: no-drag;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  background: var(--btn-bg-light);
+  border: 2px solid var(--text-light);
+  cursor: pointer;
+  color: var(--text-light);
+  padding: 10px 18px;
+  font-size: 14px;
+  border-radius: 10px;
+  transition: var(--transition);
+  box-shadow: 0 6px 18px var(--content-shadow);
+}
+
+/* Theme Toggle Hover */
+.theme-toggle-btn:hover {
+  background: var(--btn-hover-light);
+  color: var(--comet-white);
+  transform: scale(1.1);
+  box-shadow: 0 12px 28px var(--neon-glow);
+}
+
+/* ============ */
+/* Dark Mode Support */
+/* ============ */
+body.dark-mode .header {
+  background: var(--header-dark);
+  box-shadow: 0 14px 40px var(--content-shadow-dark);
+}
+
+body.dark-mode .tab {
+  background: var(--tab-dark);
+  color: var(--comet-white);
+}
+
+body.dark-mode .tab:hover {
+  background: var(--tab-hover-dark);
+  box-shadow: 0 10px 24px var(--neon-glow-dark);
+}
+
+body.dark-mode .tab.active {
+  background: var(--active-tab-bg);
+  box-shadow: inset 0 -4px 0 0 var(--tab-indicator-dark);
+  color: var(--nebula-purple);
+}
+
+body.dark-mode .theme-toggle-btn {
+  color: var(--comet-white);
+  border: 2px solid var(--comet-white);
+}
+
+body.dark-mode .theme-toggle-btn:hover {
+  background: var(--nebula-purple);
+  color: var(--comet-white);
+}
+
+/* ============ */
+/* Animations */
+/* ============ */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
-  /* Left Section: Window Controls (non-draggable) */
-  .header-left {
-    display: flex;
-    align-items: center;
-    -webkit-app-region: no-drag;
+  100% {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .header-controls {
-    display: flex;
-    gap: 10px;
+}
+
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 12px var(--neon-glow-light);
   }
-  
-  .header-button {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
+  100% {
+    box-shadow: 0 0 20px var(--neon-glow-dark);
   }
-  
-  /* Apple-Inspired Window Control Colors */
-  .close-btn {
-    background-color: #ff5f57;
-  }
-  .close-btn:hover {
-    background-color: #e0443f;
-  }
-  
-  .minimize-btn {
-    background-color: #ffbd2e;
-  }
-  .minimize-btn:hover {
-    background-color: #e1a230;
-  }
-  
-  .maximize-btn {
-    background-color: #28c940;
-  }
-  .maximize-btn:hover {
-    background-color: #1da230;
-  }
-  
-  /* Center Section: Tab Bar and Title */
-  .header-center {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    -webkit-app-region: drag;
-    pointer-events: none;
-  }
-  
-  .tabs {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    pointer-events: auto;
-    -webkit-app-region: no-drag;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-  }
-  
-  .tab {
-    display: flex;
-    align-items: center;
-    background-color: var(--tab-bg);
-    padding: 6px 12px;
-    border-radius: 6px 6px 0 0;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-  
-  .tab:hover {
-    background-color: var(--tab-hover-bg);
-    transform: translateY(-1px);
-  }
-  
-  .tab.active {
-    /* background-color: var(--active-tab-bg); */
-    background: rgba(10, 132, 255, 0.20); 
-    box-shadow: inset 0 -3px 0 0 var(--active-tab-indicator);
-    font-weight: bold;
-  }
-  
-  .tab-title {
-    font-size: 13px;
-    font-weight: 500;
-    margin-right: 8px;
-  }
-  
-  .tab-close-btn {
-    background: transparent;
-    border: none;
-    color: #bbb;
-    cursor: pointer;
-    padding: 0;
-    transition: color 0.2s ease;
-  }
-  
-  .tab-close-btn:hover {
-    color: #fff;
-  }
-  
-  .add-tab-btn {
-    background: transparent;
-    border: none;
-    color: var(--add-tab-color);
-    cursor: pointer;
-    padding: 6px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease, transform 0.2s ease;
-  }
-  
-  .add-tab-btn:hover {
-    background-color: rgba(10, 132, 255, 0.1);
-    transform: translateY(-1px);
-  }
-  
-  /* Header Title (if used) */
-  .header-title {
-    font-size: 14px;
-    font-weight: 500;
-    pointer-events: none;
-    -webkit-app-region: drag;
-  }
-  
-  /* Right Section (reserved for future controls, non-draggable) */
-  .header-right {
-    -webkit-app-region: no-drag;
-  }
-  
-  /* Theme Toggle Button */
-  .theme-toggle-btn {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: inherit;
-    padding: 5px;
-    -webkit-app-region: no-drag;
-  }
-  
+}

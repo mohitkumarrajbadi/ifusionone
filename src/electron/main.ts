@@ -1,7 +1,7 @@
 // main.ts
 
 import { app, BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
-import { getPreloadPath, getUIPath, getExtensionFilePath } from './pathResolver.js';
+import { getPreloadPath, getUIPath, getExtensionFilePath, getAiBackEndExecutableFile } from './pathResolver.js';
 import { isDev } from './util.js';
 import codeCompiler from './CodeCompileManager/codeCompiler.js';
 import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './TabManager/TabManager.js';
@@ -12,18 +12,28 @@ import { CommandRegistry } from './core/CommandRegistry/CommandRegistry.js';
 import WindowService from './core/Services/WindowService.js';
 import AIChatManager from './AiManager/AiManager.js';  // Default import
 import { processFile } from './AiManager/DataProcessor.js';
+import { spawn, ChildProcessWithoutNullStreams } from "child_process";
+import { testBackendConnection } from './AiPythonBackendManager/AiPythonBackendManager.js';
+import os from 'os';
+import path from 'path';
+
+let backendProcess: any = null;
 
 let mainWindow: BrowserWindow | null = null;
 
 function createWindow() {
-  mainWindow = new BrowserWindow({
-    transparent: true,
-    frame: false,
+  const mainWindow = new BrowserWindow({
+    width: 1400,
+    height: 900,
+    transparent: true,                    // ✅ Transparent background
+    frame: false,                         // ✅ Frameless window
+    fullscreenable: true,                 // ✅ Allow fullscreen
+    autoHideMenuBar: true,                // ✅ Hide menu bar
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
-    },
+    }
   });
 
   if (isDev()) {
@@ -37,6 +47,8 @@ function createWindow() {
 
   // Register window, tab, and AI commands.
   registerCommands();
+  startBackend();  // Start Python backend on app launch
+
 
   // Setup IPC handlers.
   setupWindowControls();
@@ -113,9 +125,19 @@ function registerCommands(): void {
   });
 
   // Process DataSet
-  CommandRegistry.register('ai:process-dataset',async (event: IpcMainEvent, filePath: string)=>{
+  CommandRegistry.register('ai:process-dataset', async (event: IpcMainEvent, filePath: string) => {
     console.log('Main filePath : ', filePath)
     const result = await processFile(filePath as any);
+    return result;
+  });
+
+  // Ai Backend Python Testing
+  CommandRegistry.register('ai:test-python-backend', async (event: IpcMainEvent, filePath: string) => {
+    console.log('Main.ts Testing python backedn')
+    const result = '';
+    testBackendConnection()
+      .then((data) => console.log("Backend Response:", data))
+      .catch((error) => console.error("Backend Error:", error));
     return result;
   });
 
@@ -181,10 +203,48 @@ function setupIpcHandlers(): void {
   ipcMain.handle('command', async (event, command: string, args: any) => {
     console.log("Received generic command:", command, "with args:", args);
     const argsArray = Array.isArray(args) ? args : [args];
-    const responseCommand =  CommandRegistry.execute(command, event, ...argsArray);
+    const responseCommand = CommandRegistry.execute(command, event, ...argsArray);
     console.log("Command response:", responseCommand);
     return responseCommand;
   });
+}
+
+// Start the Python backend
+function startBackend(): void {
+  // try {
+  //   const backendPath: string = getAiBackEndExecutableFile();
+  //   const interpreter: string = os.platform() === "win32" ? "python" : "python3";
+
+  //   console.log(`🚀 Starting Python backend: ${interpreter} -m uvicorn server:app --reload`);
+
+  //   // Spawn the backend process
+  //   backendProcess = spawn(interpreter, ["-m", "uvicorn", "server:app", "--reload"], {
+  //     cwd: path.dirname(backendPath),  // Ensure the working directory is correct
+  //     detached: true,                   // Run process independently
+  //     stdio: "inherit",                  // Display backend logs in Electron console
+  //   });
+
+  //   // Handle backend process events
+  //   backendProcess.on("close", (code: number) => {
+  //     console.log(`🔚 Backend exited with code ${code}`);
+  //     backendProcess = null;
+  //   });
+
+  //   backendProcess.on("error", (err: Error) => {
+  //     console.error(`🔥 Backend Execution Error: ${err.message}`);
+  //   });
+
+  // } catch (error) {
+  //   console.error("❌ Failed to start backend:", error);
+  // }
+}
+
+function stopBackend(): void {
+  if (backendProcess) {
+    console.log("🛑 Stopping backend process...");
+    backendProcess.kill();
+    backendProcess = null;
+  }
 }
 
 app.whenReady().then(createWindow);
