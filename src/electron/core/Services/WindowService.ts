@@ -5,11 +5,17 @@ class WindowService {
   private mainWindow: BrowserWindow | null = null;
 
   /**
-   * ✅ Sets the main application window
+   * ✅ Sets the main application window with hidden title bar
    */
   public setMainWindow(window: BrowserWindow): void {
     this.mainWindow = window;
-    console.log('🪟 Main window set successfully.');
+
+    // 💡 Ensure the title bar is always hidden
+    this.mainWindow.setMenuBarVisibility(false);
+    this.mainWindow.setWindowButtonVisibility(false);  // macOS-specific
+    this.mainWindow.setResizable(true);  // Ensure resizable but no title bar
+
+    console.log('🪟 Main window set successfully with hidden title bar.');
   }
 
   /**
@@ -32,7 +38,7 @@ class WindowService {
   }
 
   /**
-   * ✅ Toggles true fullscreen with hidden title bar on macOS
+   * ✅ Toggles fullscreen with hidden title bar
    */
   public toggleFullscreen(): void {
     if (!this.mainWindow) {
@@ -40,23 +46,15 @@ class WindowService {
       return;
     }
 
-    const isMac = process.platform === 'darwin';
     const isFullScreen = this.mainWindow.isFullScreen();
     const newFullScreen = !isFullScreen;
 
-    if (isMac) {
-      console.log(`🍎 Toggling fullscreen with hidden title bar on macOS: ${newFullScreen}`);
+    console.log(`🔹 Toggling fullscreen: ${newFullScreen}`);
+    this.mainWindow.setFullScreen(newFullScreen);
 
-      this.mainWindow.setFullScreen(newFullScreen);
-      this.mainWindow.setVisibleOnAllWorkspaces(true);
-
-      // ✅ Hide header/title bar completely during fullscreen
-      this.mainWindow.setWindowButtonVisibility(!newFullScreen); 
-      this.mainWindow.setMenuBarVisibility(false);  // Hide menu bar on macOS
-    } else {
-      console.log(`🪟 Toggling fullscreen on Windows/Linux: ${newFullScreen}`);
-      this.mainWindow.setFullScreen(newFullScreen);
-    }
+    // 💡 Ensure title bar stays hidden on all platforms
+    this.mainWindow.setMenuBarVisibility(false);
+    this.mainWindow.setWindowButtonVisibility(false);  // macOS-specific
 
     EventBus.emit('window-fullscreen-toggled', { fullscreen: newFullScreen });
   }

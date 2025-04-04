@@ -27,14 +27,17 @@ function createWindow() {
     height: 900,
     transparent: true,                    // ✅ Transparent background
     frame: false,                         // ✅ Frameless window
-    fullscreenable: true,                 // ✅ Allow fullscreen
-    autoHideMenuBar: true,                // ✅ Hide menu bar
+    fullscreen: true,                     // ✅ Launch in fullscreen mode
+    fullscreenable: true,                 // ✅ Enable fullscreen support
+    autoHideMenuBar: true,                // ✅ Hide menu bar completely
+    titleBarStyle: 'hidden',              // ✅ Hide the title bar
     webPreferences: {
       preload: getPreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
     }
   });
+
 
   if (isDev()) {
     mainWindow.loadURL('http://localhost:5123');

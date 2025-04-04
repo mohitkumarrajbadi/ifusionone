@@ -8,6 +8,8 @@ import Favourites from './components/favourites/Favourites';
 import Header from './components/header/Header';
 import { AiSpace } from './components/aispace/AiSpace';
 import { TabsProvider } from './components/utils/TabsContext';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 function App() {
   return (
@@ -18,7 +20,15 @@ function App() {
           <SideNav />
           <div className='content'>
             <Routes>
-              <Route path='/aispace' element={<AiSpace />} />
+              {/* ✅ Only wrap `AiSpace` with DndProvider */}
+              <Route
+                path='/aispace'
+                element={
+                  <DndProvider backend={HTML5Backend}>
+                    <AiSpace />
+                  </DndProvider>
+                }
+              />
               <Route path='/' element={<Favourites />} />
               <Route path='/store' element={<Store />} />
               <Route path='/settings' element={<Settings />} />

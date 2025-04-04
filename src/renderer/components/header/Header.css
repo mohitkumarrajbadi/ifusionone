@@ -186,20 +186,19 @@
 
 /* Theme Toggle Button */
 .theme-toggle-btn {
-  background: var(--btn-bg-light);
-  border: 2px solid var(--text-light);
-  cursor: pointer;
-  color: var(--text-light);
-  padding: 10px 18px;
-  font-size: 14px;
-  border-radius: 10px;
-  transition: var(--transition);
-  box-shadow: 0 6px 18px var(--content-shadow);
+    cursor: pointer;
+    color: var(--text-light);
+    padding: 10px 18px;
+    font-size: 14px;
+    transition: var(--transition);
+    box-shadow: 0 6px 18px var(--content-shadow);
+    border: none;
+    background: none;
 }
 
 /* Theme Toggle Hover */
 .theme-toggle-btn:hover {
-  background: var(--btn-hover-light);
+  /* background: var(--btn-hover-light); */
   color: var(--comet-white);
   transform: scale(1.1);
   box-shadow: 0 12px 28px var(--neon-glow);
@@ -231,11 +230,10 @@ body.dark-mode .tab.active {
 
 body.dark-mode .theme-toggle-btn {
   color: var(--comet-white);
-  border: 2px solid var(--comet-white);
 }
 
 body.dark-mode .theme-toggle-btn:hover {
-  background: var(--nebula-purple);
+  /* background: var(--nebula-purple); */
   color: var(--comet-white);
 }
 

@@ -1,8 +1,0 @@
-fastapi
-uvicorn
-pydantic
-transformers
-torch
-onnxruntime
-numpy
-pandas
