@@ -1,7 +1,7 @@
 import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
-import { getCompilerFilePath } from '../pathResolver.js';
+import { getCompilerFilePath } from '../../pathResolver.js';
 
 interface CompileEvent {
   reply: (eventName: string, data: any) => void;

@@ -7,15 +7,7 @@ const SideNav: React.FC = () => {
     return (
         <nav className="side-nav">
             <ul className="side-nav-list">
-                <li>
-                    <NavLink
-                        to="/aispace"
-                        className={({ isActive }) => isActive ? "active" : ""}
-                    >
-                        <FaAtom />
-                        <span>AI Space</span>
-                    </NavLink>
-                </li>
+              
                 <li>
                     <NavLink
                         to="/"
@@ -24,6 +16,15 @@ const SideNav: React.FC = () => {
                     >
                         <FaStar />
                         <span>Favourites</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink
+                        to="/aispace"
+                        className={({ isActive }) => isActive ? "active" : ""}
+                    >
+                        <FaAtom />
+                        <span>AI Space</span>
                     </NavLink>
                 </li>
                 <li>

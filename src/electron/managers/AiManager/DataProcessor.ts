@@ -26,7 +26,7 @@ export interface DatasetInfo {
 
 /**
  * Sanitize an object for IPC communication:
- * - Replace NaN/Infinity with null.
+ * - Replace NaN/Infinity with null. 
  * - Convert functions to their return values if possible.
  */
 function sanitizeForIPC(obj: any): any {

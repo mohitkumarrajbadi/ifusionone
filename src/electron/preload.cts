@@ -1,5 +1,6 @@
 // preload.cts
 import { contextBridge, ipcRenderer } from 'electron';
+import { runSqlCommand } from './managers/DatabaseManager/DatabaseManager';
 
 contextBridge.exposeInMainWorld('versions', {
   node: (): string => process.versions.node,
@@ -22,6 +23,7 @@ contextBridge.exposeInMainWorld('electron', {
   // Database Actions.
   insertPluginTable: (): void => ipcRenderer.send('insert-plugin-table'),
   getAllPlugins: (): Promise<any> => ipcRenderer.invoke('get-plugins'),
+  runSqlCommand: (query: string): Promise<any> => ipcRenderer.invoke('run-sql', query),
   initializeAI: (): Promise<any> => ipcRenderer.invoke('initialize-ai'),
   chatWithAI: (prompt: string): Promise<any> =>
     ipcRenderer.invoke('chat-with-ai', prompt),

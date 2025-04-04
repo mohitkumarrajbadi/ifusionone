@@ -5,7 +5,7 @@ import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { LlamaCppEmbeddings } from "@langchain/community/embeddings/llama_cpp";
 import { LlamaCpp } from "@langchain/community/llms/llama_cpp";
-import { getAIModelPath } from "../pathResolver.js";
+import { getAIModelPath } from "../../pathResolver.js";
 import { createReactAgent } from "@langchain/langgraph/prebuilt";
 import { MemorySaver } from "@langchain/langgraph";
 import { tool } from "@langchain/core/tools";

@@ -20,6 +20,7 @@ electron_1.contextBridge.exposeInMainWorld('electron', {
     // Database Actions.
     insertPluginTable: () => electron_1.ipcRenderer.send('insert-plugin-table'),
     getAllPlugins: () => electron_1.ipcRenderer.invoke('get-plugins'),
+    runSqlCommand: (query) => electron_1.ipcRenderer.invoke('run-sql', query),
     initializeAI: () => electron_1.ipcRenderer.invoke('initialize-ai'),
     chatWithAI: (prompt) => electron_1.ipcRenderer.invoke('chat-with-ai', prompt),
     searchDuckDuckGo: (query) => electron_1.ipcRenderer.invoke('search-duck-duck-go', query),

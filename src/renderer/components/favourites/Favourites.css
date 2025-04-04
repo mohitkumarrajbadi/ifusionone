@@ -1,130 +1,310 @@
+/* ================================== */
+/* Favourites Component CSS (Themed) */
+/* ================================== */
+
 /* Container styles */
 .favourites-container {
-  padding: 1rem;
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  padding: 1.5rem;
+  /* Inherits background and color from body */
   font-family: var(--font-family);
-  width: auto;
 }
 
 /* Header styles */
-.favourites-container h2 {
+.favourites-container > h2 {
   text-align: center;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-color); /* Use main text color */
+  font-weight: 600;
 }
 
 /* Grid layout for plugin cards */
 .plugin-list {
   display: grid;
-  gap: 1rem;
-  /* 4 columns on large screens */
+  gap: 1.5rem;
   grid-template-columns: repeat(4, 1fr);
-  padding: 1rem;
-  width: auto;
+  padding: 0;
 }
 
-/* For medium screens, show 3 cards per row */
-@media (max-width: 1024px) {
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .plugin-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 992px) {
   .plugin-list {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
-/* For smaller screens, show 2 cards per row */
 @media (max-width: 768px) {
   .plugin-list {
-    grid-template-columns: repeat(1, 1fr);
-  }
-}
-
-/* For very small screens, stack the cards */
-@media (max-width: 480px) {
-  .plugin-list {
     grid-template-columns: 1fr;
-    overflow: ;
   }
 }
 
 /* Plugin card styling */
 .plugin-card {
   background: var(--content-bg);
-  border: 1px solid var(--content-border);
-  box-shadow: var(--content-shadow);
-  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color); /* Use theme border */
+  box-shadow: var(--content-shadow);      /* Use theme shadow */
+  border-radius: var(--border-radius);   /* Use theme radius */
   padding: 1rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  transition: var(--transition);
-  width: auto;
+  transition: var(--transition), transform 0.2s ease-out; /* Keep transform transition separate */
 }
 
 .plugin-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-5px); /* Keep subtle lift */
+  box-shadow: var(--content-shadow), var(--neon-glow); /* Combine base shadow with glow on hover */
 }
 
+/* --- Card Sections --- */
+
 /* Plugin header */
-.plugin-header h2 {
-  margin: 0;
-  color: var(--header-text);
-  font-size: 1.5rem;
+.plugin-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.plugin-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  border-radius: 4px; /* Keep slightly smaller radius? or use var(--border-radius)? */
+  flex-shrink: 0;
+  border: 1px solid var(--border-color); /* Add subtle border matching theme */
+}
+
+.plugin-title-area {
+  flex-grow: 1;
+}
+
+.plugin-title-area h3 {
+  margin: 0 0.5rem 0 0;
+  color: var(--text-color); /* Main text color */
+  font-size: 1.15rem;
+  font-weight: 600;
+  display: inline;
+  line-height: 1.3;
+}
+
+.plugin-version {
+  font-size: 0.75rem;
+  color: var(--secondary-text); /* Use secondary text */
+  background-color: var(--tag-bg); /* Use tag background */
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.plugin-verified {
+  font-size: 0.8rem;
+  color: var(--verified-color); /* Use verified color */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+.plugin-verified svg {
+   font-size: 1em;
 }
 
 /* Plugin body */
-.plugin-body p {
-  margin: 0.5rem 0;
-  color: var(--text-color);
+.plugin-body {
+  margin-bottom: 1rem;
+  flex-grow: 1;
+}
+
+.plugin-description {
+  margin: 0.5rem 0 1rem 0;
+  color: var(--text-color); /* Main text */
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.plugin-author {
+  font-size: 0.8rem;
+  color: var(--secondary-text); /* Use secondary text */
+  margin-bottom: 0.75rem;
+}
+
+.plugin-tags {
+  margin-bottom: 1rem;
+}
+
+.plugin-tag {
+  display: inline-block;
+  background-color: var(--tag-bg); /* Use tag background */
+  color: var(--tag-color);       /* Use tag text color */
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+}
+
+/* Plugin stats */
+.plugin-stats, .plugin-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.85rem;
+  color: var(--secondary-text); /* Use secondary text */
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--separator-color); /* Use separator */
+  margin-bottom: 1rem;
+}
+
+.plugin-stats span, .plugin-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.plugin-stats svg, .plugin-links svg {
+  color: var(--icon-color); /* Use icon color */
+  font-size: 1.1em;
+  vertical-align: middle;
+}
+
+.installed-date {
+  /* No specific style needed, inherits secondary text color */
+}
+
+/* Plugin links */
+.plugin-links a {
+  color: var(--link-color); /* Use link color */
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.plugin-links a:hover, .plugin-links a:focus {
+  text-decoration: underline;
+  opacity: 0.8;
 }
 
 /* Plugin footer */
 .plugin-footer {
   margin-top: auto;
-  text-align: right;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--separator-color); /* Use separator */
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  align-content: center;
   align-items: center;
   justify-content: space-between;
+  gap: 0.5rem;
 }
 
-/* Button styling */
+/* Base button styling */
 .plugin-footer button {
-  background-color: var(--active-tab-indicator);
-  color: #fff;
+  background-color: var(--button-primary-bg); /* Use themed button bg */
+  color: var(--button-text-color);          /* Use themed button text */
   border: none;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius);   /* Use theme radius */
   padding: 0.5rem 1rem;
   cursor: pointer;
   transition: var(--transition);
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  flex-wrap: wrap;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 5px;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  line-height: 1;
+  white-space: nowrap;
 }
 
-.plugin-footer button:hover {
-  background-color: var(--add-tab-color);
+.plugin-footer button:hover:not(:disabled) {
+  background-color: var(--button-primary-hover-bg); /* Use themed hover bg */
+  box-shadow: var(--neon-glow); /* Add glow on hover */
+}
+
+.plugin-footer button:focus {
+  outline: 2px solid var(--focus-ring-color); /* Use themed focus ring */
+  outline-offset: 2px;
+}
+
+.plugin-footer button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Specific button styles */
+.delete-button {
+  background: transparent !important; /* Keep transparent */
+  color: var(--danger-color) !important; /* Use themed danger color */
+  padding: 0.5rem;
+  font-size: 1.2rem;
+  box-shadow: none;
+}
+
+.delete-button:hover:not(:disabled) {
+  background-color: var(--danger-hover-bg) !important; /* Use themed danger hover bg */
+  box-shadow: none; /* Remove glow if desired for delete button hover */
+}
+
+/* Ensure icon inside delete button inherits color */
+.delete-button svg {
+    color: inherit;
+}
+
+
+.open-button {
+  /* Inherits base styles */
+  font-size: 0.9rem;
 }
 
 /* No plugins message */
 .no-plugins {
+  grid-column: 1 / -1;
   text-align: center;
-  width: 100%;
+  padding: 2rem;
+  color: var(--secondary-text); /* Use secondary text */
   font-style: italic;
 }
 
-.delete-button {
-  background-color: none !important;
-  background: none !important;
-  size: 20px;
-  font-size: x-large;
-  color: red !important;
+/* Error message styling */
+.error-message {
+    grid-column: 1 / -1;
+    color: var(--danger-color); /* Use danger color for text */
+    background-color: color-mix(in srgb, var(--danger-color) 10%, var(--content-bg)); /* Mix danger color with content bg */
+    border: 1px solid var(--danger-color); /* Use danger color for border */
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+}
+.error-message svg {
+    color: var(--danger-color); /* Match text color */
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+.error-message button {
+    margin-left: auto;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    background-color: var(--secondary-text); /* Use secondary text for retry button bg */
+    color: var(--content-bg); /* Use content bg for text (contrast) */
+    border: none;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+.error-message button:hover {
+    opacity: 0.8;
 }
 
-.open-button{
-  font-size: medium;
+/* Loading state styling */
+.loading-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: var(--secondary-text);
 }

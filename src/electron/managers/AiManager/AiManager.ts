@@ -2,7 +2,7 @@
 import { getLlama, LlamaChatSession } from "node-llama-cpp";
 import * as path from "path";
 import fs from "fs/promises";
-import { getAIModelPath } from "../pathResolver.js";
+import { getAIModelPath } from "../../pathResolver.js";
 
 // Constants for conversation management.
 const CONTEXT_THRESHOLD = 10; // Number of messages before resetting.
