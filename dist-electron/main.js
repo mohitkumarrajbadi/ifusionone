@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import { getPreloadPath, getUIPath, getExtensionFilePath } from './pathResolver.js';
 import { isDev } from './util.js';
 import codeCompiler from './managers/CodeCompileManager/codeCompiler.js';
-import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './managers/TabManager/TabManager.js';
+import { createWebContentView, closeWebContentView, switchToTab } from './managers/TabManager/TabManager.js';
 import { getAllPlugins, insertPlugin, runSqlCommand } from './managers/DatabaseManager/DatabaseManager.js';
 import { searchDuckDuckGo } from './managers/WebScrappingManager/WebScrappingManager.js';
 import { testingLangGraph } from './managers/AiManager/TestingLangchain.js';
@@ -33,7 +33,7 @@ function createWindow() {
     registerCommands();
     setupIpcHandlers();
     mainWindow.on('closed', () => (mainWindow = null));
-    mainWindow.on('resize', () => mainWindow && switchToTab(activeTabId, mainWindow));
+    mainWindow.on('resize', () => mainWindow);
 }
 function registerCommands() {
     // Window Commands

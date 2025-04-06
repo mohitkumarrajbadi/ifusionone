@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
 import { getPreloadPath, getUIPath, getExtensionFilePath } from './pathResolver.js';
 import { isDev } from './util.js';
 import codeCompiler from './managers/CodeCompileManager/codeCompiler.js';
-import { createWebContentView, closeWebContentView, switchToTab, activeTabId } from './managers/TabManager/TabManager.js';
+import { createWebContentView, closeWebContentView, switchToTab } from './managers/TabManager/TabManager.js';
 import { getAllPlugins, insertPlugin, runSqlCommand } from './managers/DatabaseManager/DatabaseManager.js';
 import { searchDuckDuckGo } from './managers/WebScrappingManager/WebScrappingManager.js';
 import { testingLangGraph } from './managers/AiManager/TestingLangchain.js';
@@ -37,7 +37,7 @@ function createWindow() {
   setupIpcHandlers();
 
   mainWindow.on('closed', () => (mainWindow = null));
-  mainWindow.on('resize', () => mainWindow && switchToTab(activeTabId, mainWindow));
+  mainWindow.on('resize', () => mainWindow );
 }
 
 function registerCommands(): void {
@@ -77,7 +77,6 @@ function setupIpcHandlers(): void {
   ipcMain.on('ADD_TAB', (event, extensionName: string) => CommandRegistry.execute('tab:add', event, extensionName));
   ipcMain.on('CLOSE_TAB', (event, tabId: number) => CommandRegistry.execute('tab:close', event, tabId));
   ipcMain.on('SWITCH_TAB', (event, tabId: number) => CommandRegistry.execute('tab:switch', event, tabId));
-
   ipcMain.handle('compile-code', async (_event, { code, language }) => await codeCompiler({ code, language }));
   ipcMain.on('insert-plugin-table', () => insertPlugin());
   ipcMain.handle('get-plugins', async () => await getAllPlugins());

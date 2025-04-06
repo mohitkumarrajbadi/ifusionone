@@ -44,6 +44,7 @@
 
 /* Plugin card styling */
 .plugin-card {
+  width: max-content;
   background: var(--content-bg);
   border: 1px solid var(--border-color); /* Use theme border */
   box-shadow: var(--content-shadow);      /* Use theme shadow */

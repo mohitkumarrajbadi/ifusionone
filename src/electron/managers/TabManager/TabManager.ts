@@ -2,7 +2,7 @@ import { BrowserWindow, WebContentsView, Rectangle } from 'electron';
 import { getPreloadPath } from '../../pathResolver.js'
 import EventBus from '../../core/EventBus/EventBus.js';
 
-const HEADER_HEIGHT = 500;
+const HEADER_HEIGHT = 56;
 let tabCounter = 0;
 export const webContentViews: { [id: number]: WebContentsView } = {};
 export let activeTabId: number = 1;
@@ -46,7 +46,7 @@ export function createWebContentView(extensionPath: string, mainWindow: BrowserW
   // Get the content bounds from the main window.
   const { width, height } = mainWindow.getContentBounds();
   const bounds: Rectangle = (tabId === activeTabId)
-    ? { x: 0, y: HEADER_HEIGHT, width, height: height - HEADER_HEIGHT - 100 }
+    ? { x: 0, y: HEADER_HEIGHT, width, height: height - HEADER_HEIGHT }
     : { x: 0, y: HEADER_HEIGHT, width: 0, height: 0 };
 
   webView.setBounds(bounds);
