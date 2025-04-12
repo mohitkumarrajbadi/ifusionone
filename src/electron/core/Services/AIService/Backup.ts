@@ -167,6 +167,5 @@ export const AiSpace = () => {
     //     </div>
     //   </footer>
     // </div>
-    <div></div>
   );
 };

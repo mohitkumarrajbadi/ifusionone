@@ -4,7 +4,7 @@ import {
   insertPlugin,
   getPluginByIdQuery,
   deletePluginQuery,
-} from '../DatabaseManager/DatabaseManager.js';
+} from '../DatabaseService/DatabaseManager.js';
 
 export function getAllPluginsList(): Promise<Plugin[]> {
   return getAllPlugins();

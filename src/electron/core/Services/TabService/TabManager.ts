@@ -1,6 +1,6 @@
 import { BrowserWindow, WebContentsView, Rectangle } from 'electron';
-import { getPreloadPath } from '../../pathResolver.js'
-import EventBus from '../../core/EventBus/EventBus.js';
+import { getPreloadPath } from '../../../pathResolver.js';
+import EventBus from '../../EventBus/EventBus.js';
 
 const HEADER_HEIGHT = 56;
 let tabCounter = 0;

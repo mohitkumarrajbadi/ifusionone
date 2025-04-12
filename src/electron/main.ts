@@ -1,17 +1,11 @@
 import { app, BrowserWindow, ipcMain, IpcMainEvent } from 'electron';
 import { getPreloadPath, getUIPath, getExtensionFilePath } from './pathResolver.js';
 import { isDev } from './util.js';
-import codeCompiler from './managers/CodeCompileManager/codeCompiler.js';
-import { createWebContentView, closeWebContentView, switchToTab } from './managers/TabManager/TabManager.js';
-import { getAllPlugins, insertPlugin, runSqlCommand } from './managers/DatabaseManager/DatabaseManager.js';
-import { searchDuckDuckGo } from './managers/WebScrappingManager/WebScrappingManager.js';
-import { testingLangGraph } from './managers/AiManager/TestingLangchain.js';
-import { CommandRegistry } from './registry/CommandRegistry.js';
+import codeCompiler from './core/Services/CompilerService/CompilerService.js';
+import { createWebContentView, closeWebContentView, switchToTab } from './core/Services/TabService/TabManager.js';
+import { getAllPlugins, insertPlugin, runSqlCommand } from './core/Services/DatabaseService/DatabaseService.js';
+import { CommandRegistry } from './core/Registry/CommandRegistry.js';
 import WindowService from './core/Services/WindowService.js';
-import AIChatManager from './managers/AiManager/AiManager.js'; 
-import { processFile } from './managers/AiManager/DataProcessor.js';
-import { testBackendConnection } from './managers/AiPythonBackendManager/AiPythonBackendManager.js';
-
 let mainWindow: BrowserWindow | null = null;
 
 function createWindow() {
@@ -20,7 +14,6 @@ function createWindow() {
     height: 900,
     transparent: true,
     frame: false,
-    fullscreen: true,
     fullscreenable: true,
     autoHideMenuBar: true,
     titleBarStyle: 'hidden',
@@ -58,16 +51,16 @@ function registerCommands(): void {
   CommandRegistry.register('tab:switch', (event: IpcMainEvent, tabId: number) => switchToTab(tabId, mainWindow));
 
   // AI Commands
-  CommandRegistry.register('ai:initialize', async () => await AIChatManager.initialize());
-  CommandRegistry.register('ai:chat', async (_event, prompt: string) => await AIChatManager.chat(prompt));
-  CommandRegistry.register('ai:reset', async () => await AIChatManager.resetSession());
-  CommandRegistry.register('ai:close', async () => await AIChatManager.close());
-  CommandRegistry.register('ai:save-history', async (_event, filePath: string) => await AIChatManager.saveChatHistory(filePath));
-  CommandRegistry.register('ai:restore-history', async (_event, filePath: string) => await AIChatManager.restoreChatHistory(filePath));
-  CommandRegistry.register('ai:preload', async (_event, prompt: string) => await AIChatManager.preloadPrompt(prompt));
-  CommandRegistry.register('ai:complete', async (_event, prompt: string) => await AIChatManager.completePrompt(prompt));
-  CommandRegistry.register('ai:process-dataset', async (_event, filePath: string) => await processFile(filePath));
-  CommandRegistry.register('ai:test-python-backend', async () => testBackendConnection());
+  // CommandRegistry.register('ai:initialize', async () => await AIChatManager.initialize());
+  // CommandRegistry.register('ai:chat', async (_event, prompt: string) => await AIChatManager.chat(prompt));
+  // CommandRegistry.register('ai:reset', async () => await AIChatManager.resetSession());
+  // CommandRegistry.register('ai:close', async () => await AIChatManager.close());
+  // CommandRegistry.register('ai:save-history', async (_event, filePath: string) => await AIChatManager.saveChatHistory(filePath));
+  // CommandRegistry.register('ai:restore-history', async (_event, filePath: string) => await AIChatManager.restoreChatHistory(filePath));
+  // CommandRegistry.register('ai:preload', async (_event, prompt: string) => await AIChatManager.preloadPrompt(prompt));
+  // CommandRegistry.register('ai:complete', async (_event, prompt: string) => await AIChatManager.completePrompt(prompt));
+  // CommandRegistry.register('ai:process-dataset', async (_event, filePath: string) => await processFile(filePath));
+  // CommandRegistry.register('ai:test-python-backend', async () => testBackendConnection());
 }
 
 function setupIpcHandlers(): void {
@@ -81,8 +74,8 @@ function setupIpcHandlers(): void {
   ipcMain.on('insert-plugin-table', () => insertPlugin());
   ipcMain.handle('get-plugins', async () => await getAllPlugins());
   ipcMain.handle('run-sql', async (_event, query: string) => await runSqlCommand(query));
-  ipcMain.handle('search-duck-duck-go', async (_event, query: string) => await searchDuckDuckGo(query));
-  ipcMain.handle('testing-langchain', async (_event, query: string) => await testingLangGraph(query));
+  // ipcMain.handle('search-duck-duck-go', async (_event, query: string) => await searchDuckDuckGo(query));
+  // ipcMain.handle('testing-langchain', async (_event, query: string) => await testingLangGraph(query));
   ipcMain.handle('command', async (_event, command: string, args: any) => CommandRegistry.execute(command, _event, ...[].concat(args)));
 }
 

@@ -1,6 +1,6 @@
 // preload.cts
 import { contextBridge, ipcRenderer } from 'electron';
-import { runSqlCommand } from './managers/DatabaseManager/DatabaseManager';
+import { runSqlCommand } from './core/Services/DatabaseService/DatabaseManager';
 
 contextBridge.exposeInMainWorld('versions', {
   node: (): string => process.versions.node,
