@@ -17,6 +17,7 @@ src/aimodels/*
 src/python-ai-hub/__pycache__
 src/python-ai-hub/build
 src/python-ai-hub/dist
+src/electron/ai/models/
 .env
 *.env
 
